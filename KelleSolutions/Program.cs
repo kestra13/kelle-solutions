@@ -13,6 +13,13 @@ builder.Services.AddDbContext<KelleSolutionsDbContext>(options =>
 builder.Services.AddDefaultIdentity<User>() 
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<KelleSolutionsDbContext>();
+
+// Register IEmailSender and EmailSender services
+builder.Services.AddTransient<IEmailSender, EmailSender>(); // Register the EmailSender service
+
+// Add configuration for SendGrid email sending
+builder.Services.Configure<SendGridOptions>(builder.Configuration.GetSection("SendGrid"));
+
 builder.Services.AddRazorPages();
 
 var app = builder.Build();
@@ -32,7 +39,6 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
-
 
 app.MapRazorPages();
 
