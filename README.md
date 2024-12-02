@@ -202,18 +202,6 @@ The application will start on `https://localhost:5072` or `http://localhost:5000
   - Finalize any remaining testing and debugging.
   - Deploy the project.
 
-### Key Milestones
-- Update styling for created pages
-- Create all pages needed for the site
-  - Tenant/Admin and Agent Asset Pages
-  - User Specific Asset Pages
-  - Data Entry Pages
-- Set up Two Factor Authentication
-- Integrate Sendgrid for account creation and password reset
-- Create roles and their corresponding permissions
-- Testing and Debugging
-- Deploy Project
-
 <h2 id="technologies-used">
   <picture>
   <source media="(prefers-color-scheme: dark)" srcset="images/technologiesused.png">
