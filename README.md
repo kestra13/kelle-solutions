@@ -1,11 +1,4 @@
-<div style="text-align: center;">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="images/kellelogodark.png">
-    <source media="(prefers-color-scheme: light)" srcset="images/kellelogolight.png">
-    <img alt="Example Image" src="images/kellelogodark.png">
-  </picture>
-</div>
-
+<img alt="Example Image" src="images/kellelogo.png">
 
 # Razor Pages ASP.NET Core with Entity Framework Core
 
