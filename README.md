@@ -1,6 +1,5 @@
-<div style="text-align: center;">
-  <img alt="Example Image" src="images/kellelogo.jpg" width="200">
-</div>
+<img alt="Example Image" src="images/kellelogo.jpg" width="200" style="display: block; margin-left: auto; margin-right: auto;">
+
 
 # Razor Pages ASP.NET Core with Entity Framework Core
 
