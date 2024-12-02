@@ -170,7 +170,15 @@ The application will start on `https://localhost:5072` or `http://localhost:5000
 - `Models/Student.cs`: The `Student` entity class.
 - `Data/SchoolContext.cs`: The database context class for managing the database connection and querying the `Student` model.
 
-## Timeline
+<h2 id="timeline">
+  <picture>
+  <source media="(prefers-color-scheme: dark)" srcset="images/timeline.png">
+  <source media="(prefers-color-scheme: light)" srcset="images/timelinelight.png">
+  <img alt="Example Image" src="images/timeline.png">
+  </picture>
+  Timeline
+</h2>
+
 - Week 1: Update styling for created pages
 - Week 2: Create all pages needed for the site
   - Tenant/Admin Asset Pages
