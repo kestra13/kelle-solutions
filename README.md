@@ -4,9 +4,9 @@
 # Kelle Solutions
 Kelle Solutions is a simple Razor Pages web application built with ASP.NET Core and Entity Framework Core. Our application demonstrates basic CRUD (Create, Read, Update, Delete) functionality using a database (SQL Server).
 
-| Mockup Dashboard | Current Working Dashboard |
+| Create Account Page | Current Dashboard |
 |--------------------------|--------------------------|
-| ![Image 1](images/mockupdashboard.JPG)   | ![Image 2](images/dashboard.png)   |
+| ![Image 1](images/createaccount.png)   | ![Image 2](images/dashboard.png)   |
 
 
 ## Synopsis
