@@ -8,16 +8,16 @@ This project is a simple Razor Pages web application built with ASP.NET Core and
 
 ## Team Scrumbags Members
 
-| Name                  | Role       |
-|-----------------------|------------|
-| Nancy Zhu             | Member     |
+| Members               |
+|-----------------------|
+| Nancy Zhu             |
 | Steven Cao            |
 | Brandon Kmiec         |
 | Evan Brizendine       |
 | Jalen Grant Hall      |
 | Kestine Tran          |
 | Kyle Mucha            |
-| Sergio Rodriguez      | Team Lead  |
+| Sergio Rodriguez      |
 
 
 ## Features
