@@ -178,6 +178,30 @@ The application will start on `https://localhost:5072` or `http://localhost:5000
   Timeline
 </h2>
 
+### Sprint 5: Page Creation and Initial Styling
+- Primary Focus: Completing page creation and updating styling for existing pages.
+  - Update styling for created pages.
+  - Create the following pages:
+    - Tenant/Admin and Agent Asset Pages.
+    - User-Specific Asset Pages.
+    - Data Entry Pages.
+
+### Sprint 6: Authentication and Permissions
+- Primary Focus: Enhancing security and role management.
+  - Set up Two-Factor Authentication.
+  - Integrate SendGrid for account creation and password reset.
+  - Create roles and their corresponding permissions.
+
+### Sprint 7: Testing and Debugging
+- Primary Focus: Ensuring reliability and identifying issues.
+  - Testing of all features.
+  - Debugging functionality, layout, and security issues.
+
+### Sprint 8: Final Deployment
+- Primary Focus: Wrapping up and launching the project.
+  - Finalize any remaining testing and debugging.
+  - Deploy the project.
+
 ### Key Milestones
 - Update styling for created pages
 - Create all pages needed for the site
