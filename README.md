@@ -1,4 +1,4 @@
-<img alt="Example Image" src="images/kellelogo.png">
+<img alt="Example Image" src="images/kellelogo.jpg">
 
 # Razor Pages ASP.NET Core with Entity Framework Core
 
