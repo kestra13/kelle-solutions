@@ -179,14 +179,13 @@ The application will start on `https://localhost:5072` or `http://localhost:5000
   Timeline
 </h2>
 
-- Week 1: Update styling for created pages
-- Week 2: Create all pages needed for the site
+- Sprint 5: Update styling for created pages
+- Sprint 6: Create all pages needed for the site
   - Tenant/Admin Asset Pages
   - User Specific Asset Pages
   - Data Entry Pages
-- Week 3: Integrate Sendgrid for account creation and password reset
-- Week 4: Create roles and their corresponding permissions
-- Week 5: 
+- Sprint 7: Integrate Sendgrid for account creation and password reset
+- Sprint 8: Create roles and their corresponding permissions
 
 <h2 id="technologies-used">
   <picture>
