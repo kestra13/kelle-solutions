@@ -28,7 +28,7 @@ Kelle Solutions is a user-friendly, multi-tenant SaaS (Software as a Service) pl
 - [Project Structure](#project-structure)
 - [Timeline](#timeline)
 - [Technologies Used](#technologies-used)
-- [How to Contribute](#how-to-contribute)
+- [How to Contribute](#contribute)
 - [License](#license)
 
 <h2 id="team-scrumbags-members">
@@ -230,7 +230,14 @@ The application will start on `https://localhost:5072` or `http://localhost:5000
   Developer Instructions
 </h2>
 
-## How to Contribute
+<h2 id="contribute">
+  <picture>
+  <source media="(prefers-color-scheme: dark)" srcset="images/contribute.png">
+  <source media="(prefers-color-scheme: light)" srcset="images/contributelight.png">
+  <img alt="Example Image" src="images/contribute.png">
+  </picture>
+  How to Contribute
+</h2>
 
 If you'd like to contribute to the project:
 
