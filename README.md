@@ -10,7 +10,7 @@ Kelle Solutions is a user-friendly, multi-tenant SaaS (Software as a Service) pl
 | Create Account Page | Sign In |
 |--------------------------|--------------------------|
 | ![Image 1](images/createaccount.png)| ![Image 2](images/signin.png)   |
-| Forgot Password | Verification Code |
+|  Forgot Password | Verification Code |
 | ![Image 3](images/forgotpassword.png)   | ![Image 4](images/verificationcode.png)   |
 | Change Password | Current Dashboard |
 | ![Image 3](images/changepassword.png)   | ![Image 4](images/ATdashboard.png)   |
