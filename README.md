@@ -10,7 +10,7 @@ Kelle Solutions is a simple Razor Pages web application built with ASP.NET Core 
     <figcaption>Caption for Image 1</figcaption>
   </figure>
   <figure style="display: inline-block; margin: 10px;">
-    <img src="images/dashboard.jpg" alt="Image 2" width="300">
+    <img src="images/dashboard.png" alt="Image 2" width="300">
     <figcaption>Caption for Image 2</figcaption>
   </figure>
 </div>
