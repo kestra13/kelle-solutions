@@ -7,13 +7,33 @@ Kelle Solutions is a simple Razor Pages web application built with ASP.NET Core 
 ## Synopsis
 Kelle Solutions is a user-friendly, multi-tenant SaaS (Software as a Service) platform designed to streamline operations for real estate professionals. It provides an all-in-one solution for users to organize and manage their businesses effectively. Each role (agent, tenant, and admin) has tailored views and specific permissions to CRUD (Create, Read, Update, Delete) functionalities. With a scalable design, Kelle Solutions integrates seamlessly with essential tools and systems, allowing users to navigate through their dashboard, leads, properties, listings, entities, and people. While agents have limited access to most functionalities, tenants and admins have additional tools and features with tenants having advanced permissions.
 
-| Create Account Page | Sign In |
-|--------------------------|--------------------------|
-| ![Image 1](images/createaccount.png)| ![Image 2](images/signin.png)   |
-|  Forgot Password | Verification Code |
-| ![Image 3](images/forgotpassword.png)   | ![Image 4](images/verificationcode.png)   |
-| Change Password | Current Dashboard |
-| ![Image 3](images/changepassword.png)   | ![Image 4](images/ATdashboard.png)   |
+<table>
+  <tr>
+    <th><b>Create Account Page</b></th>
+    <th><b>Sign In</b></th>
+  </tr>
+  <tr>
+    <td align="center"><img src="images/createaccount.png" alt="Create Account Page"></td>
+    <td align="center"><img src="images/signin.png" alt="Sign In"></td>
+  </tr>
+  <tr>
+    <th><b>Forgot Password</b></th>
+    <th><b>Verification Code</b></th>
+  </tr>
+  <tr>
+    <td align="center"><img src="images/forgotpassword.png" alt="Forgot Password"></td>
+    <td align="center"><img src="images/verificationcode.png" alt="Verification Code"></td>
+  </tr>
+  <tr>
+    <th><b>Change Password</b></th>
+    <th><b>Current Dashboard</b></th>
+  </tr>
+  <tr>
+    <td align="center"><img src="images/changepassword.png" alt="Change Password"></td>
+    <td align="center"><img src="images/ATdashboard.png" alt="Current Dashboard"></td>
+  </tr>
+</table>
+
 
 
 
