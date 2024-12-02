@@ -8,6 +8,7 @@ This project is a simple Razor Pages web application built with ASP.NET Core and
 
 ## Team Scrumbags Members
 
+| Name                  | Role       |
 |-----------------------|------------|
 | Nancy Zhu             | Member     |
 | Steven Cao            |
