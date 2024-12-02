@@ -1,9 +1,9 @@
 <p align="center">
   <img alt="logo" src="images/kellelogo.jpg" width="300">
 
-# Razor Pages ASP.NET Core with Entity Framework Core
+# Kelle Real Estate Management System (K.R.E.M.S)
 
-This project is a simple Razor Pages web application built with ASP.NET Core and Entity Framework Core. The application demonstrates basic CRUD (Create, Read, Update, Delete) functionality using a database (SQL Server).
+K.R.E.M.S. is a simple Razor Pages web application built with ASP.NET Core and Entity Framework Core. Our application demonstrates basic CRUD (Create, Read, Update, Delete) functionality using a database (SQL Server).
 
 <h2>
   <picture>
