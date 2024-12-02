@@ -167,12 +167,14 @@ The application will start on `https://localhost:5072` or `http://localhost:5000
 - `Data/SchoolContext.cs`: The database context class for managing the database connection and querying the `Student` model.
 
 ## Timeline
-- Update styling for created pages
-- Create all pages needed for the site
-  - Model Pages
+- Week 1: Update styling for created pages
+- Week 2: Create all pages needed for the site
+  - Tenant/Admin Asset Pages
+  - User Specific Asset Pages
   - Data Entry Pages
-  - 
-- xdgnxgfn
+- Week 3: Integrate Sendgrid for account creation and password reset
+- Week 4: Create roles and their corresponding permissions
+- Week 5: 
 
 <h2 id="technologies-used">
   <picture>
