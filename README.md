@@ -22,6 +22,7 @@ Kelle Solutions is a user-friendly, multi-tenant SaaS (Software as a Service) pl
 - [Prerequisites](#prerequisites)
 - [Getting Started](#getting-started)
 - [Project Structure](#project-structure)
+- [Timeline](#timeline)
 - [Technologies Used](#technologies-used)
 - [How to Contribute](#how-to-contribute)
 - [License](#license)
@@ -164,6 +165,8 @@ The application will start on `https://localhost:5072` or `http://localhost:5000
 - `Pages/Students`: Razor Pages for creating, reading, updating, and deleting students.
 - `Models/Student.cs`: The `Student` entity class.
 - `Data/SchoolContext.cs`: The database context class for managing the database connection and querying the `Student` model.
+
+## Timeline
 
 <h2 id="technologies-used">
   <picture>
