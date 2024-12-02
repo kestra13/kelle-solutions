@@ -5,16 +5,15 @@
 Kelle Solutions is a simple Razor Pages web application built with ASP.NET Core and Entity Framework Core. Our application demonstrates basic CRUD (Create, Read, Update, Delete) functionality using a database (SQL Server).
 
 <div align="center">
-  <figure style="display: inline-block; margin: 10px;">
+  <div style="display: inline-block; text-align: center; margin: 10px;">
+    <p><strong>Caption for Image 1</strong></p>
     <img src="images/mockupdashboard.JPG" alt="Image 1" width="300">
-    <figcaption>Caption for Image 1</figcaption>
-  </figure>
-  <figure style="display: inline-block; margin: 10px;">
+  </div>
+  <div style="display: inline-block; text-align: center; margin: 10px;">
+    <p><strong>Caption for Image 2</strong></p>
     <img src="images/dashboard.png" alt="Image 2" width="300">
-    <figcaption>Caption for Image 2</figcaption>
-  </figure>
+  </div>
 </div>
-
 
 ## Synopsis
 Kelle Solutions is a user-friendly, multi-tenant SaaS (Software as a Service) platform designed to streamline operations for real estate professionals. It provides an all-in-one solution for users to organize and manage their businesses effectively. Each role (agent, tenant, and admin) has tailored views and specific permissions to CRUD (Create, Read, Update, Delete) functionalities. With a scalable design, Kelle Solutions integrates seamlessly with essential tools and systems, allowing users to navigate through their dashboard, leads, properties, listings, entities, and people. While agents have limited access to most functionalities, tenants and admins have additional tools and features with tenants having advanced permissions.
