@@ -186,6 +186,7 @@ The application will start on `https://localhost:5072` or `http://localhost:5000
   - Data Entry Pages
 - Sprint 7: Integrate Sendgrid for account creation and password reset
 - Sprint 8: Create roles and their corresponding permissions
+- Sprint 9: Deploy Project
 
 <h2 id="technologies-used">
   <picture>
