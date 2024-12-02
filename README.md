@@ -60,7 +60,7 @@ Kelle Solutions is a user-friendly, multi-tenant SaaS (Software as a Service) pl
 - SQL Server database for persistence
 - Dependency Injection for `DbContext`
 - CRUD operations for managing student data
-
+- Secure authentication utilizing two-factor and encryption
 
 <h2 id="prerequisites">
   <picture>
