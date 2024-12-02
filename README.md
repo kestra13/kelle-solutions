@@ -167,6 +167,12 @@ The application will start on `https://localhost:5072` or `http://localhost:5000
 - `Data/SchoolContext.cs`: The database context class for managing the database connection and querying the `Student` model.
 
 ## Timeline
+- Update styling for created pages
+- Create all pages needed for the site
+  - Model Pages
+  - Data Entry Pages
+  - 
+- xdgnxgfn
 
 <h2 id="technologies-used">
   <picture>
