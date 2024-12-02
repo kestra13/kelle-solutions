@@ -7,14 +7,16 @@
 This project is a simple Razor Pages web application built with ASP.NET Core and Entity Framework Core. The application demonstrates basic CRUD (Create, Read, Update, Delete) functionality using a database (SQL Server).
 
 ## Team Scrumbags Members
-- Nancy Zhu
-- Steven Cao
-- Brandon Kmiec
-- Evan Brizendine
-- Jalen Grant Hall
-- Kestine Tran
-- Kyle Mucha
-- Sergio Rodriguez (Team Lead)
+| Name                  | Role       |
+|-----------------------|------------|
+| Nancy Zhu             | Member     |
+| Steven Cao            | Member     |
+| Brandon Kmiec         | Member     |
+| Evan Brizendine       | Member     |
+| Jalen Grant Hall      | Member     |
+| Kestine Tran          | Member     |
+| Kyle Mucha            | Member     |
+| Sergio Rodriguez      | Team Lead  |
 
 
 ## Features
