@@ -17,7 +17,7 @@ This project is a simple Razor Pages web application built with ASP.NET Core and
 | Jalen Grant Hall      |
 | Kestine Tran          |
 | Kyle Mucha            |
-| Sergio Rodriguez      |
+| Sergio Rodriguez [Team Lead]|
 
 
 ## Features
