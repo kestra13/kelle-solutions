@@ -247,5 +247,13 @@ If you'd like to contribute to the project:
 4. Push to the branch (`git push origin feature/my-feature`)
 5. Create a new Pull Request
 
-## License
+<h2 id="licence">
+  <picture>
+  <source media="(prefers-color-scheme: dark)" srcset="images/licence.png">
+  <source media="(prefers-color-scheme: light)" srcset="images/licencelight.png">
+  <img alt="Example Image" src="images/licence.png">
+  </picture>
+  Licence
+</h2>
+
 All rights are observed. This project is not open source.
