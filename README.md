@@ -7,9 +7,32 @@ Kelle Solutions is a simple Razor Pages web application built with ASP.NET Core 
 ## Synopsis
 Kelle Solutions is a user-friendly, multi-tenant SaaS (Software as a Service) platform designed to streamline operations for real estate professionals. It provides an all-in-one solution for users to organize and manage their businesses effectively. Each role (agent, tenant, and admin) has tailored views and specific permissions to CRUD (Create, Read, Update, Delete) functionalities. With a scalable design, Kelle Solutions integrates seamlessly with essential tools and systems, allowing users to navigate through their dashboard, leads, properties, listings, entities, and people. While agents have limited access to most functionalities, tenants and admins have additional tools and features with tenants having advanced permissions.
 
-| Create Account Page | Current Dashboard |
-|--------------------------|--------------------------|
-| ![Image 1](images/createaccount.png)   | ![Image 2](images/dashboard.png)   |
+<table>
+  <tr>
+    <th><b>Create Account Page</b></th>
+    <th><b>Sign In</b></th>
+  </tr>
+  <tr>
+    <td align="center"><img src="images/createaccount.png" alt="Create Account Page"></td>
+    <td align="center"><img src="images/signin.png" alt="Sign In"></td>
+  </tr>
+  <tr>
+    <th><b>Forgot Password</b></th>
+    <th><b>Verification Code</b></th>
+  </tr>
+  <tr>
+    <td align="center"><img src="images/forgotpassword.png" alt="Forgot Password"></td>
+    <td align="center"><img src="images/verificationcode.png" alt="Verification Code"></td>
+  </tr>
+  <tr>
+    <th><b>Change Password</b></th>
+    <th><b>Current Dashboard</b></th>
+  </tr>
+  <tr>
+    <td align="center"><img src="images/changepassword.png" alt="Change Password"></td>
+    <td align="center"><img src="images/ATdashboard.png" alt="Current Dashboard"></td>
+  </tr>
+</table>
 
 <h2>
   <picture>
@@ -27,6 +50,9 @@ Kelle Solutions is a user-friendly, multi-tenant SaaS (Software as a Service) pl
 - [Project Structure](#project-structure)
 - [Timeline](#timeline)
 - [Technologies Used](#technologies-used)
+- [Testing](#testing)
+- [Deployment](#deploy)
+- [Developer Instructions](#instructions)
 - [How to Contribute](#contribute)
 - [License](#license)
 
@@ -64,7 +90,7 @@ Kelle Solutions is a user-friendly, multi-tenant SaaS (Software as a Service) pl
 - SQL Server database for persistence
 - Dependency Injection for `DbContext`
 - CRUD operations for managing student data
-- Secure authentication utilizing two-factor and encryption
+
 
 <h2 id="prerequisites">
   <picture>
@@ -111,8 +137,12 @@ dotnet build
 Install the required NuGet packages if they are not installed:
 
 ```bash
+dotnet add package Microsoft.AspNetCore.Identity.EntityFrameworkCore
+dotnet add package Microsoft.AspNetCore.Identity.UI
 dotnet add package Microsoft.EntityFrameworkCore.SqlServer
 dotnet add package Microsoft.EntityFrameworkCore.Design
+dotnet add package Microsoft.EntityFrameworkCore.Tools
+dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design
 ```
 
 ### 4. Set Up the Database Connection
@@ -165,9 +195,22 @@ The application will start on `https://localhost:5072` or `http://localhost:5000
   Project Structure
 </h2>
 
-- `Pages/Students`: Razor Pages for creating, reading, updating, and deleting students.
-- `Models/Student.cs`: The `Student` entity class.
-- `Data/SchoolContext.cs`: The database context class for managing the database connection and querying the `Student` model.
+| **Path**                       | **Description**                                                                                  |
+|--------------------------------|--------------------------------------------------------------------------------------------------|
+| `Pages/Affiliations`           | Razor Pages for reading, updating, and deleting a User's company or organization affiliation.    |
+| `Pages/Entities`               | Razor Pages for creating, reading, updating, and deleting entities, which represent companies and organizations. |
+| `Pages/Leads`                  | Razor Pages for creating, reading, updating, and deleting leads, which are potential tenants or clients. |
+| `Pages/Listings`               | Razor Pages for creating, reading, updating, and deleting property listings, which are advertisements for houses. |
+| `Pages/People`                 | Razor Pages for creating, reading, updating, and deleting tenants, or clients.                  |
+| `Pages/Properties`             | Razor Pages for creating, reading, updating, and deleting properties.                           |
+| `Pages/Roles`                  | Razor Pages for reading table of User roles.                                                    |
+| `Pages/Shared`                 | Razor Pages for general UI/UX layout and login recognition.                                     |
+| `Pages/Transactions`           | Razor Pages for documenting transactions.                                                       |
+| `Models/Affiliate.cs`          | The `Affiliate` entity class, representing an agent's company or organization.                  |
+| `Models/Person.cs`             | The `Person` entity class, representing tenants, or clients.                                    |
+| `Models/RealEstateProperty.cs` | The `RealEstateProperty` entity class, representing a property.                                 |
+| `Models/User.cs`               | The `User` entity class, representing any agent, tenant, or admin who logs in.                  |
+| `Data/KelleSolutionsDbContext.cs` | The database context class for managing the database connection and querying the `Properties` and `Affiliates` model. |
 
 <h2 id="timeline">
   <picture>
@@ -213,7 +256,8 @@ The application will start on `https://localhost:5072` or `http://localhost:5000
 
 - ASP.NET Core Razor Pages
 - Entity Framework Core
-- SQL Server / LocalDB
+- SQL Server / LocalDB (In development)
+- Azure SQL Server Hosting (In testing)
 - Bootstrap (for simple page styling)
 
 <h2 id="testing">
@@ -225,6 +269,12 @@ The application will start on `https://localhost:5072` or `http://localhost:5000
   Testing
 </h2>
 
+This section will include:
+- Unit testing for critical functionalities (e.g. CRUD operations).
+- Integration testing for database and authentication flows.
+- Load testing to ensure application performance under concurrent usage.
+- User acceptance testing to verify role-based dashboards and features.
+
 <h2 id="deploy">
   <picture>
   <source media="(prefers-color-scheme: dark)" srcset="images/deploy.png">
@@ -234,6 +284,10 @@ The application will start on `https://localhost:5072` or `http://localhost:5000
   Deploy
 </h2>
 
+This section will outline:
+- Publishing the web application to Azure App Services.
+- Testing deployment on the live environment for accuracy and reliability.
+
 <h2 id="instructions">
   <picture>
   <source media="(prefers-color-scheme: dark)" srcset="images/instructions.png">
@@ -242,6 +296,23 @@ The application will start on `https://localhost:5072` or `http://localhost:5000
   </picture>
   Developer Instructions
 </h2>
+
+1. Prepare changes to be staged
+```bash
+git add .
+```
+2. Commit your changes
+```bash
+git commit -m 'Add my feature'
+```
+3. Push to the branch
+```bash
+git push origin main
+```
+4. Create a new Pull Request
+```bash
+git pull origin main
+```
 
 <h2 id="contribute">
   <picture>
@@ -254,11 +325,23 @@ The application will start on `https://localhost:5072` or `http://localhost:5000
 
 If you'd like to contribute to the project:
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/my-feature`)
-3. Commit your changes (`git commit -m 'Add my feature'`)
-4. Push to the branch (`git push origin feature/my-feature`)
+1. Fork the repository (through GitHub)
+2. Create a feature branch
+```bash
+git checkout -b feature/my-feature
+```
+3. Commit your changes
+```bash
+git commit -m 'Add my feature'
+```
+4. Push to the branch
+```bash
+git push origin feature/my-feature
+```
 5. Create a new Pull Request
+```bash
+git pull origin main
+```
 
 <h2 id="license">
   <picture>
