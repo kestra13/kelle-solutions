@@ -43,7 +43,7 @@ namespace KelleSolutions.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Affiliates");
+                    b.ToTable("Affiliates", (string)null);
                 });
 
             modelBuilder.Entity("KelleSolutions.Models.Entity", b =>
@@ -78,7 +78,7 @@ namespace KelleSolutions.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Entities");
+                    b.ToTable("Entities", (string)null);
                 });
 
             modelBuilder.Entity("KelleSolutions.Models.Lead", b =>
@@ -121,7 +121,7 @@ namespace KelleSolutions.Migrations
 
                     b.HasKey("LeadID");
 
-                    b.ToTable("Leads");
+                    b.ToTable("Leads", (string)null);
                 });
 
             modelBuilder.Entity("KelleSolutions.Models.Listing", b =>
@@ -132,28 +132,16 @@ namespace KelleSolutions.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ListingID"));
 
-                    b.Property<string>("Affiliation")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("AgentID")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
                     b.Property<DateTime?>("EndDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("ListingType")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
@@ -161,20 +149,31 @@ namespace KelleSolutions.Migrations
                     b.Property<int>("PropertyID")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("nvarchar(50)");
 
-                    b.HasKey("ListingID");
+                    b.Property<string>("Team")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)");
 
-                    b.HasIndex("AgentID");
+                    b.Property<string>("UserID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("ListingID");
 
                     b.HasIndex("PropertyID");
 
-                    b.ToTable("Listings");
+                    b.HasIndex("UserID");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Listings", (string)null);
                 });
 
             modelBuilder.Entity("KelleSolutions.Models.Property", b =>
@@ -221,9 +220,6 @@ namespace KelleSolutions.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
-                    b.Property<string>("OwnerID")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("PartialCount")
                         .HasColumnType("int");
 
@@ -238,9 +234,6 @@ namespace KelleSolutions.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("TenantID")
-                        .HasColumnType("int");
-
                     b.Property<string>("UserID")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -254,86 +247,9 @@ namespace KelleSolutions.Migrations
 
                     b.HasKey("PropertyID");
 
-                    b.HasIndex("TenantID");
-
                     b.HasIndex("UserID");
 
-                    b.ToTable("Properties");
-                });
-
-            modelBuilder.Entity("KelleSolutions.Models.Tenant", b =>
-                {
-                    b.Property<int>("TenantID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TenantID"));
-
-                    b.Property<int>("LicenseOperator")
-                        .HasColumnType("int");
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<string>("TenantCode")
-                        .IsRequired()
-                        .HasMaxLength(3)
-                        .HasColumnType("nvarchar(3)");
-
-                    b.Property<string>("Website")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.HasKey("TenantID");
-
-                    b.ToTable("Tenants");
-                });
-
-            modelBuilder.Entity("KelleSolutions.Models.Transaction", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime?>("AppraisalDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Comments")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DepositDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("InspectionDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("LoanDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("PropertyInformation")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TransitionDetails")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Transactions");
+                    b.ToTable("Properties", (string)null);
                 });
 
             modelBuilder.Entity("KelleSolutions.Models.User", b =>
@@ -362,9 +278,6 @@ namespace KelleSolutions.Migrations
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsTenant")
-                        .HasColumnType("bit");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -400,9 +313,6 @@ namespace KelleSolutions.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("TenantID")
-                        .HasColumnType("int");
-
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
@@ -419,8 +329,6 @@ namespace KelleSolutions.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.HasIndex("TenantID");
 
                     b.ToTable("AspNetUsers", (string)null);
                 });
@@ -450,26 +358,6 @@ namespace KelleSolutions.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "ac91c392-d52f-4e88-8e51-d7c74002a802",
-                            Name = "Admin",
-                            NormalizedName = "ADMIN"
-                        },
-                        new
-                        {
-                            Id = "b05e67eb-aa22-4c5d-9a5d-32b91bb03c22",
-                            Name = "Broker",
-                            NormalizedName = "BROKER"
-                        },
-                        new
-                        {
-                            Id = "d4123a11-b84c-4561-9e2e-d757727191d3",
-                            Name = "Agent",
-                            NormalizedName = "AGENT"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -584,48 +472,38 @@ namespace KelleSolutions.Migrations
 
             modelBuilder.Entity("KelleSolutions.Models.Listing", b =>
                 {
-                    b.HasOne("KelleSolutions.Models.User", "Agent")
-                        .WithMany()
-                        .HasForeignKey("AgentID")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
                     b.HasOne("KelleSolutions.Models.Property", "Property")
                         .WithMany("Listings")
                         .HasForeignKey("PropertyID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Agent");
+                    b.HasOne("KelleSolutions.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("KelleSolutions.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Property");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("KelleSolutions.Models.Property", b =>
                 {
-                    b.HasOne("KelleSolutions.Models.Tenant", "Tenant")
-                        .WithMany()
-                        .HasForeignKey("TenantID");
-
                     b.HasOne("KelleSolutions.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Tenant");
-
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("KelleSolutions.Models.User", b =>
-                {
-                    b.HasOne("KelleSolutions.Models.Tenant", "Tenant")
-                        .WithMany("Users")
-                        .HasForeignKey("TenantID")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("Tenant");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -682,11 +560,6 @@ namespace KelleSolutions.Migrations
             modelBuilder.Entity("KelleSolutions.Models.Property", b =>
                 {
                     b.Navigation("Listings");
-                });
-
-            modelBuilder.Entity("KelleSolutions.Models.Tenant", b =>
-                {
-                    b.Navigation("Users");
                 });
 #pragma warning restore 612, 618
         }
