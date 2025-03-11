@@ -132,6 +132,10 @@ namespace KelleSolutions.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ListingID"));
 
+                    b.Property<string>("Affiliation")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)");
+
                     b.Property<string>("AgentID")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -152,7 +156,7 @@ namespace KelleSolutions.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(12,2)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("PropertyID")
                         .HasColumnType("int");
@@ -162,7 +166,6 @@ namespace KelleSolutions.Migrations
 
                     b.Property<string>("Status")
                         .IsRequired()
-                        .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
                     b.HasKey("ListingID");
@@ -170,58 +173,6 @@ namespace KelleSolutions.Migrations
                     b.HasIndex("AgentID");
 
                     b.HasIndex("PropertyID");
-
-                    b.ToTable("Listings");
-                });
-
-            modelBuilder.Entity("KelleSolutions.Models.Listing", b =>
-                {
-                    b.Property<int>("ListingID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ListingID"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<DateTime?>("EndDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("PropertyID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Team")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("UserID")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("ListingID");
-
-                    b.HasIndex("PropertyID");
-
-                    b.HasIndex("UserID");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Listings");
                 });
@@ -271,7 +222,6 @@ namespace KelleSolutions.Migrations
                         .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("OwnerID")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("PartialCount")
@@ -504,21 +454,21 @@ namespace KelleSolutions.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "72f3d80c-94aa-40f6-b4bf-a425f5fed939",
+                            Id = "ac91c392-d52f-4e88-8e51-d7c74002a802",
                             Name = "Admin",
-                            NormalizedName = "Admin"
+                            NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "422a2516-0cc8-4596-a024-8193bee7687a",
+                            Id = "b05e67eb-aa22-4c5d-9a5d-32b91bb03c22",
                             Name = "Broker",
-                            NormalizedName = "Broker"
+                            NormalizedName = "BROKER"
                         },
                         new
                         {
-                            Id = "c853a50f-b497-4b2e-8058-9fc46defaf90",
+                            Id = "d4123a11-b84c-4561-9e2e-d757727191d3",
                             Name = "Agent",
-                            NormalizedName = "Agent"
+                            NormalizedName = "AGENT"
                         });
                 });
 
@@ -637,11 +587,11 @@ namespace KelleSolutions.Migrations
                     b.HasOne("KelleSolutions.Models.User", "Agent")
                         .WithMany()
                         .HasForeignKey("AgentID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("KelleSolutions.Models.Property", "Property")
-                        .WithMany()
+                        .WithMany("Listings")
                         .HasForeignKey("PropertyID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -657,7 +607,15 @@ namespace KelleSolutions.Migrations
                         .WithMany()
                         .HasForeignKey("TenantID");
 
+                    b.HasOne("KelleSolutions.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Tenant");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("KelleSolutions.Models.User", b =>
@@ -668,42 +626,6 @@ namespace KelleSolutions.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Tenant");
-                });
-
-            modelBuilder.Entity("KelleSolutions.Models.Listing", b =>
-                {
-                    b.HasOne("KelleSolutions.Models.Property", "Property")
-                        .WithMany("Listings")
-                        .HasForeignKey("PropertyID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("KelleSolutions.Models.User", null)
-                        .WithMany()
-                        .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("KelleSolutions.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Property");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("KelleSolutions.Models.Property", b =>
-                {
-                    b.HasOne("KelleSolutions.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -755,6 +677,16 @@ namespace KelleSolutions.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("KelleSolutions.Models.Property", b =>
+                {
+                    b.Navigation("Listings");
+                });
+
+            modelBuilder.Entity("KelleSolutions.Models.Tenant", b =>
+                {
+                    b.Navigation("Users");
                 });
 #pragma warning restore 612, 618
         }

@@ -71,7 +71,8 @@ namespace KelleSolutions.Pages.Properties {
                     GarageCount = Property.GarageCount,
                     YearConstructed = Property.YearConstructed, 
                     PropertyType = Property.PropertyType,
-                    CreatedAt = DateTime.UtcNow
+                    CreatedAt = DateTime.UtcNow,
+                    OwnerID = currentUser.Id
                 };
 
                 // Save the new property to the database

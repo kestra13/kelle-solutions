@@ -28,7 +28,7 @@ namespace KelleSolutions.Pages.Listings {
 
         // Stores listings available to the user
         public List<ViewUserListings> AllListings { get; set; } = new();
-        public List<ViewUserListings> ViewUserListings { get; set; } = new();
+        public List<ViewUserListings> MyListings { get; set; } = new();
         public CreateListingModalModel CreateListingModel { get; set; }
         public List<KeyValuePair<string, string>> AvailableStatusTypesList { get; set; } = new();
 
@@ -43,50 +43,46 @@ namespace KelleSolutions.Pages.Listings {
         public int TotalPages => (int)Math.Ceiling((double)AllListings.Count / PageSize);
 
         public async Task<IActionResult> OnGetAsync() {
-            // Gets the currently logged-in user
             var currentUser = await _userManager.GetUserAsync(User);
 
-            // If no user is logged in, redirect to login page
             if (currentUser == null) {
                 return RedirectToPage("/Account/Login");
             }
 
-            // Fetch roles for the logged-in user
             var roles = await _userManager.GetRolesAsync(currentUser);
 
-            // Query to fetch listings
             var listingsQuery = _context.Listings
                 .Include(l => l.Property)
                 .Include(l => l.Agent)
                 .AsQueryable();
 
-            // If user is a broker or agent, filter based on ownership
             if (roles.Contains("Broker") || roles.Contains("Agent")) {
                 listingsQuery = listingsQuery.Where(l => l.AgentID == currentUser.Id);
             }
-            // Admin role sees all listings, no filtering needed
 
-            // Fetch listing data from database
-            AllListings = await listingsQuery
+            // Fetch raw listing data FIRST (without Enum.GetName)
+            var rawListings = await listingsQuery
                 .OrderByDescending(l => l.StartDate)
-                .Select(l => new ViewUserListings {
-                    ID = l.ListingID,
-                    ListingDate = DateOnly.FromDateTime(l.StartDate),
-                    Status = l.Status,
-                    Operator = l.Agent.FirstName + " " + l.Agent.LastName,
-                    Team = l.Agent.Affiliation,
-                    Price = (double)l.Price,
-                    Address = $"{l.Property.Address}, {l.Property.City}, {l.Property.State} {l.Property.ZipCode}"
-                })
+                // Fetch from DB first!
                 .ToListAsync();
 
-            // Paginate listings
-            ViewUserListings = AllListings
+            AllListings = rawListings.Select(l => new ViewUserListings {
+                ListingID = l.ListingID,
+                ListingDate = DateOnly.FromDateTime(l.StartDate),
+                Status = l.Status.ToString(),
+                Operator = l.Agent.FirstName + " " + l.Agent.LastName,
+                Affiliation = l.Agent.Affiliation ?? "N/A",
+                Price = (double)l.Price,
+                Address = $"{l.Property.Address}, {l.Property.City}, {l.Property.State} {l.Property.ZipCode}"
+            }).ToList();
+
+            // Paginate
+            MyListings = AllListings
                 .Skip((PageNumber - 1) * PageSize)
                 .Take(PageSize)
                 .ToList();
 
-            // Initialize CreateListingModel for modal
+            // Initialize CreateListingModel
             CreateListingModel = new CreateListingModalModel(_context, _userManager, User);
             await CreateListingModel.OnGetAsync();
 
@@ -103,6 +99,7 @@ namespace KelleSolutions.Pages.Listings {
 
             return Page();
         }
+
 
         public async Task<JsonResult> OnPostUpdateStatusAsync([FromBody] UpdateStatusModel request) {
             // Find the listing in the database by its ListingID
@@ -133,11 +130,11 @@ namespace KelleSolutions.Pages.Listings {
 
 // View model for user listings
 public class ViewUserListings {
-    public int ID { get; set; }
+    public int ListingID { get; set; }
     public DateOnly ListingDate { get; set; }
     public string Status { get; set; }
     public string Operator { get; set; }
-    public string Team { get; set; }
+    public string Affiliation { get; set; }
     public double Price { get; set; }
     public string Address { get; set; }
 }

@@ -18,7 +18,7 @@ namespace KelleSolutions.Models {
         // Unique ID (or APN) for each property (PK), APN will be considered later
         public int PropertyID { get; set; }
 
-        public required string OwnerID { get; set; }
+        public string? OwnerID { get; set; }
 
     //  [ForeignKey("OwnerID")]
     //  public required User Owner { get; set; }

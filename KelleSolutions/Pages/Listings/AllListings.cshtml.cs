@@ -19,7 +19,7 @@ namespace KelleSolutions.Pages.Listings {
         }
 
         // storing the list of all listings
-        public List<ListingViewModel> AllListings { get; set; } = new();
+        public List<ViewUserListings> AllListings { get; set; } = new();
 
         // page display properties (not house properties, but like components properties),
         // clarification for later documentation
@@ -41,12 +41,12 @@ namespace KelleSolutions.Pages.Listings {
                 .Include(l => l.Property)
                 // ensure User details are loaded through Property
                 .ThenInclude(p => p.User)
-                .Select(l => new ListingViewModel {
+                .Select(l => new ViewUserListings {
                     ListingID = l.ListingID,
                     Date = l.CreatedAt,
                     Status = l.Status.ToString(),
                     OperatorName = l.Property.User.FirstName + " " + l.Property.User.LastName,
-                    Team = l.Team.ToString(),
+                    Affiliation = l.Affiliation.ToString(),
                     Price = l.Price,
                     Address = l.Property.Address
                 })
@@ -70,12 +70,12 @@ namespace KelleSolutions.Pages.Listings {
         }
 
         // view model to format data properly
-        public class ListingViewModel {
+        public class ViewUserListings {
             public int ListingID { get; set; }
             public DateTime Date { get; set; }
             public string Status { get; set; }
             public string OperatorName { get; set; }
-            public string Team { get; set; }
+            public string Affiliation { get; set; }
             public decimal Price { get; set; }
             public string Address { get; set; }
         }

@@ -107,7 +107,7 @@ Adding comments to better explain documentation.
                 <th>ID</th>
                 <th>Created</th>
                 <th>Status</th>
-                <th>Team</th>
+                <th>Affiliation</th>
                 <th>Price</th>
                 <th>Address</th>
             </tr>
@@ -116,7 +116,7 @@ Adding comments to better explain documentation.
             @foreach (var listing in Model.MyListings) {
                 <tr>
                     <td>@listing.ListingID</td>
-                    <td>@listing.Date.ToString("yyyy-MM-dd")</td>
+                    <td>@listing.ListingDate.ToString("yyyy-MM-dd")</td>
                     <td>
                         <div class="btn-group">
                             <button type="button" class="btn dropdown-outline">
@@ -136,7 +136,7 @@ Adding comments to better explain documentation.
                                 </div>
                         </div>
                     </td>
-                    <td>@listing.Team</td>
+                    <td>@listing.Affiliation</td>
                     <!-- "C0" formats currency to 0 decimal places -->
                     <td>@listing.Price.ToString("C0")</td>
                     <td>@listing.Address</td>
@@ -238,7 +238,7 @@ Adding comments to better explain documentation.
                     PropertyId: document.getElementById("propertyId").value.trim(),
                     Price: document.getElementById("listingPrice").value.trim(),
                     Status: document.getElementById("listingStatus").value.trim(),
-                    Team: document.getElementById("listingTeam").value.trim()
+                    Affiliation: document.getElementById("listingAffiliation").value.trim()
                 };
 
                 console.log("Submitting Listing Data:", JSON.stringify(formData));

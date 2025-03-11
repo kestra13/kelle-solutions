@@ -54,6 +54,8 @@ namespace KelleSolutions.Migrations
                 type: "int",
                 nullable: true);
 
+            migrationBuilder.Sql("IF OBJECT_ID(N'dbo.Listings', N'U') IS NOT NULL DROP TABLE dbo.Listings;");
+
             migrationBuilder.CreateTable(
                 name: "Listings",
                 columns: table => new
@@ -84,8 +86,10 @@ namespace KelleSolutions.Migrations
                         column: x => x.PropertyID,
                         principalTable: "Properties",
                         principalColumn: "PropertyID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
+
+            migrationBuilder.Sql("DROP TABLE IF EXISTS dbo.Tenant;");
 
             migrationBuilder.CreateTable(
                 name: "Tenant",

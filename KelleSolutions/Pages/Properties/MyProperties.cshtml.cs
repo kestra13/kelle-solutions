@@ -31,6 +31,8 @@ namespace KelleSolutions.Pages.Properties {
         public List<ViewUserProperties> AllProperties { get; set; } = new();
         public List<ViewUserProperties> ViewUserProperties { get; set; } = new();
 
+        public List<Property> MyProperties { get; set; } = new();
+
         // Available property types list
         public List<KeyValuePair<string, string>> AvailablePropertyTypesList { get; set; } = new();
 
@@ -52,6 +54,8 @@ namespace KelleSolutions.Pages.Properties {
             if (currentUser == null) {
                 return RedirectToPage("/Account/Login");
             }
+
+            MyProperties = await _context.Properties.ToListAsync();
 
             // Fetch roles for the logged-in user
             var roles = await _userManager.GetRolesAsync(currentUser);

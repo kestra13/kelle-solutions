@@ -52,13 +52,13 @@ namespace KelleSolutions.Models {
             Canceled
         }
 
-        // Defines the listing team type (e.g., Internal, External)
-        [Required(ErrorMessage = "Team type is required")]
+        // Defines the listing affiliation type (e.g., Internal, External)
+        [Required(ErrorMessage = "Affiliation type is required")]
         [Column(TypeName = "nvarchar(50)")]
-        public required TeamTypes Team { get; set; }
+        public required AffiliationTypes Affiliation { get; set; }
 
-        // Pre-defined team types
-        public enum TeamTypes {
+        // Pre-defined affiliation types
+        public enum AffiliationTypes {
             Internal,
             External
         }
