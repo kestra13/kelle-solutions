@@ -2,7 +2,6 @@ using KelleSolutions.Data;
 using KelleSolutions.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System.IO;                        // reads the JSON file
 using System.Text.Json;                 // encrypt and decrypt JSON file data
 
 var builder = WebApplication.CreateBuilder(args);

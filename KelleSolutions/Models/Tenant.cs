@@ -20,6 +20,7 @@ namespace KelleSolutions.Models
         public int LicenseOperator { get; set; }
 
         // Navigation Property
-        public ICollection<User> Users { get; set; } = new List<User>();
+        public virtual ICollection<User> Users { get; set; } = new List<User>();
+        public ICollection<TenantToPerson> TenantToPeople { get; set; } = new List<TenantToPerson>();
     }
 }

@@ -1,33 +1,42 @@
-﻿// Date: 02/11/2025
-// Updating User.cs to reflect User Entity in ERD.
-// Adding comments to better explain documentation.
-
-// ASP.NET has built-in login and user management that can be referenced using this line.
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace KelleSolutions.Models {
-    // User inherits everything from IdentityUser but gets to add extra details, as seen below!
+namespace KelleSolutions.Models
+{
     public class User : IdentityUser
     {
-        // User does not need to redefine properties from IdentityUser (ex: "Email", "PhoneNumber", "PasswordHash", etc.)
-        // Properties that were not defined in IdentityUser but are still needed have been described here.
-        // In terminal, use command "dotnet ef dbcontext script" to view the table "AspNetUsers", which defines
-        // all default properties provided by Microsoft.AspNetCore.Identity
+        // Personal details
+        [Required]
+        [MaxLength(100)]
+        public string FirstName { get; set; } = null!;
 
-        // Required Personal files
-        public required string FirstName { get; set; }
-        public required string LastName { get; set; }
-        public required string Affiliation { get; set; }
-        public required string LicenseNumber { get; set; }
+        [Required]
+        [MaxLength(100)]
+        public string LastName { get; set; } = null!;
 
-        // Additional properties from ERD that do exist in IdentityUser superclass:
+        [MaxLength(255)]
+        public string Affiliation { get; set; } = null!;
+
+        [MaxLength(50)]
+        public string LicenseNumber { get; set; } = string.Empty;
+
         public bool IsTenant { get; set; }
 
-        // Tenant relationship
-        public int? TenantID { get; set; }  // Nullable, because a user may initially not belong to any tenant
+        // Foreign Key to Role Table
+        [ForeignKey("Role")]
+        public int RoleID { get; set; }
+        public virtual Role Role { get; set; } = null!;
+
+        // Foreign Key to Tenant Table (Restored from previous model)
+        public int? TenantID { get; set; }  // Nullable in case a user is not assigned a tenant
 
         [ForeignKey("TenantID")]
         public virtual Tenant? Tenant { get; set; }
+
+        // Timestamps
+        public DateTime DateCreated { get; set; } = DateTime.UtcNow;
+        public DateTime DateUpdated { get; set; } = DateTime.UtcNow;
     }
 }

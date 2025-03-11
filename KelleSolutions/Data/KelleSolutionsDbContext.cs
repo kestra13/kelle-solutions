@@ -33,12 +33,32 @@ namespace KelleSolutions.Data
                 .HasForeignKey(u => u.TenantID)
                 .OnDelete(DeleteBehavior.Restrict); // Prevents accidental deletions
 
+            builder.Entity<Tenant>().ToTable("Tenant");
+
+            // Configure TenantToPerson
+            builder.Entity<TenantToPerson>()
+                .HasKey(tp => new { tp.TenantID, tp.PersonID });
+
+            builder.Entity<TenantToPerson>()
+                .HasOne(tp => tp.Tenant)
+                .WithMany(t => t.TenantToPeople)
+                .HasForeignKey(tp => tp.TenantID)
+                .HasConstraintName("FK_TenantToPeople_Tenant_TenantID")
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<TenantToPerson>()
+                .HasOne(tp => tp.Person)
+                .WithMany()
+                .HasForeignKey(tp => tp.PersonID)
+                .HasConstraintName("FK_TenantToPeople_AspNetUsers_PersonID")
+                .OnDelete(DeleteBehavior.Restrict); // Prevents accidental deletions
+
             builder.Entity<IdentityRole>().HasData(
                 new IdentityRole { Name = "Admin", NormalizedName = "ADMIN" },
                 new IdentityRole { Name = "Broker", NormalizedName = "BROKER" },
                 new IdentityRole { Name = "Agent", NormalizedName = "AGENT" });
 
-            // ✅ Keep cascade delete for PropertyID
+            // Keep cascade delete for PropertyID
             builder.Entity<Listing>()
                 .HasOne(l => l.Property)
                 .WithMany(p => p.Listings)
@@ -64,10 +84,63 @@ namespace KelleSolutions.Data
             builder.Entity<Listing>()
                 .Property(l => l.Affiliation)
                 .HasColumnType("nvarchar(50)");
+
+            builder.Entity<Property>()
+                .HasOne(p => p.Tenant)
+                .WithMany()
+                .HasForeignKey(p => p.TenantID)
+                .HasConstraintName("FK_Properties_Tenant_TenantID") 
+            .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<PersonToEntity>()
+                .HasOne(pe => pe.PersonNavigation)
+                .WithMany()
+                .HasForeignKey(pe => pe.Person)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<PersonToEntity>()
+                .HasOne(pe => pe.EntityNavigation)
+                .WithMany()
+                .HasForeignKey(pe => pe.Entity)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<PermissionGroup>()
+                .HasKey(pg => pg.PermissionGroupID);
+
+            builder.Entity<PermissionGroup>()
+                .HasOne(pg => pg.ParentGroup)
+                .WithMany()
+                .HasForeignKey(pg => pg.ParentGroupID);
+
+            builder.Entity<PermissionGroup>()
+                .HasOne(pg => pg.Permission)
+                .WithMany()
+                .HasForeignKey(pg => pg.PermissionID);
+
+            builder.Entity<RolePermissionGroupEntity>()
+                .HasKey(rpge => new { rpge.RoleID, rpge.PermissionGroupID, rpge.PageAccessID });
+
+            builder.Entity<RolePermissionGroupEntity>()
+                .HasOne(rpge => rpge.RoleNavigation)
+                .WithMany()
+                .HasForeignKey(rpge => rpge.RoleID);
+
+            builder.Entity<RolePermissionGroupEntity>()
+                .HasOne(rpge => rpge.PermissionGroupNavigation)
+                .WithMany()
+                .HasForeignKey(rpge => rpge.PermissionGroupID);
+
+            builder.Entity<RolePermissionGroupEntity>()
+                .HasOne(rpge => rpge.PageAccess)
+                .WithMany()
+                .HasForeignKey(rpge => rpge.PageAccessID);
         }
 
         // DbSet for Tenants
         public DbSet<Tenant> Tenants { get; set; }
+
+        // DbSet for TenantToPerson
+        public DbSet<TenantToPerson> TenantToPeople { get; set; }   
 
         // DbSet for Properties
         public DbSet<Property> Properties { get; set; }
@@ -86,6 +159,18 @@ namespace KelleSolutions.Data
 
         // DbSet for Entities
         public DbSet<Entity> Entities { get; set; }
+
+        // DbSet for PersonToEntity
+        public DbSet<PersonToEntity> PersonToEntity { get; set; }
+
+        // DbSet for PermissionGroup
+        public DbSet<PermissionGroup> PermissionGroup { get; set; }
+        
+        // DbSet for RolePermissionGroupEntity
+        public DbSet<RolePermissionGroupEntity> RolePermissionGroupEntity { get; set; }
+
+        // DbSet for Permissions
+        public DbSet<Permission> Permissions { get; set; }
 
     }
 }
