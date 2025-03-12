@@ -1,55 +1,104 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;    // handles user authentication!
+using System.Collections.Generic;       // defines database relationships
+using System.Linq;                      // defines LINQ queries (ex: "Where", "OrderBy", "Skip", "Take", etc.)
+using System.Threading.Tasks;           // supports non-blocking queries (ex: "async", "await")
+using KelleSolutions.Data;              // imports KelleSolutionsDbContext.cs
+using KelleSolutions.Models;            // imports model classes, like "Person.cs" as Person and "User.cs" as User
 
-namespace KelleSolutions.Pages.People
-{
-    public class ViewPeopleModel : PageModel
-    {
-        public List<ViewUserPeople> AllPeople { get; set; }
-        public List<ViewUserPeople> ViewUserPeople { get; set; }
+namespace KelleSolutions.Pages.People {
+    public class MyPeopleModel : PageModel {
+        // database context for querying people
+        private readonly KelleSolutionsDbContext _context;
+        private readonly UserManager<User> _userManager;
+
+        // constructor that injects database context & user manager
+        public MyPeopleModel(KelleSolutionsDbContext context, UserManager<User> userManager) {
+            _context = context;
+            _userManager = userManager;
+        }
+
+        // storing the list of affiliated people
+        public List<Person> MyPeople { get; set; } = new();
+
+        // storing the list of teams (ex: "Scrumbags", "KelleSolutions")
+        public List<Team> Teams { get; set; } = new();
+
+        // storing list of categories (ex: "Admin", "Broker", "Agent")
+        public List<Category> Categories { get; set; } = new();
+
+        // storing the CreatePersonModalModel
+        public CreatePersonModalModel CreatePersonModal { get; set; }
+
+        // page display properties
+        [BindProperty(SupportsGet = true)]
+        public int PageSize { get; set; } = 10;  // default to 10 per page
 
         [BindProperty(SupportsGet = true)]
-        public int PageSize { get; set; } = 10; // Default to 10 properties per page
+        public int PageNumber { get; set; } = 1;  // current page number
 
-        [BindProperty(SupportsGet = true)]
-        public int PageNumber { get; set; } = 1;
+        public int TotalPages { get; set; }  // total number of pages
 
-        public int TotalPages => (int)System.Math.Ceiling((double)AllPeople.Count / PageSize);
-
-        public void OnGet()
-        {
-            // Sample Data
-            AllPeople = new List<ViewUserPeople>();
-            for (int i = 1; i <= 128; i++)
-            {
-                AllPeople.Add(new ViewUserPeople
-                {
-                    ID = i,
-                    LastName = "Stone",
-                    FirstName = "Billy",
-                    Phone = 1234567890,
-                    Email = "billy@test.com",
-                    CreationDate = new DateOnly(2024, 4, 12),
-                    Category = "Partner" //Agent, Vender, Client, Friend
-                });
+        public async Task<IActionResult> OnGetAsync() {
+            // get the currently logged-in user
+            var currentUser = await _userManager.GetUserAsync(User);
+            if (currentUser == null) {
+                return Unauthorized();  // ensure user is logged in
             }
 
-            // Apply Pagination
-            ViewUserPeople = AllPeople.Skip((PageNumber - 1) * PageSize).Take(PageSize).ToList();
-        }
-    }
+            // retrieve only people from the logged-in user's affiliation (Team)
+            var teamId = await _context.Teams
+                .Where(t => t.Affiliation == currentUser.Affiliation)
+                .Select(t => t.TeamId)
+                .FirstOrDefaultAsync();
 
-    public class ViewUserPeople
-    {
-        public int ID { get; set; }
-        public string LastName { get; set; }
-        public string FirstName { get; set; }
-        public int Phone { get; set; }
-        public string Email { get; set; }
-        public DateOnly CreationDate { get; set; }
-        public string Category { get; set; }
+            // handle case where team is not found 
+            if (teamId == 0) {
+                return BadRequest("Your affiliation does not have a corresponding Team ID.");
+            }
+
+            // retrieve only people from the logged-in user's affiliation (Team)
+            var query = _context.People
+                .Where(p => p.Team == teamId)
+                .AsQueryable();
+
+            // get total count for pagination
+            int totalPeople = await query.CountAsync();
+            TotalPages = (int)System.Math.Ceiling((double)totalPeople / PageSize);
+
+            // apply pagination: skip previous pages, take only PageSize records
+            MyPeople = await query
+                .Skip((PageNumber - 1) * PageSize)
+                .Take(PageSize)
+                .ToListAsync();
+            
+            Console.WriteLine($"People loaded: {MyPeople.Count}");
+            
+            // get teams
+            var teams = await _context.Teams.ToListAsync();
+
+            // get categories
+            var categories = await _context.Categories.ToListAsync();
+
+            Console.WriteLine($"Teams Count: {teams.Count}");
+            Console.WriteLine($"Categories Count: {categories.Count}");
+
+            // initialize CreatePersonModalModel
+            CreatePersonModal = new CreatePersonModalModel(_context, _userManager) {
+                Teams = teams,
+                Categories = categories
+            };
+
+            if (CreatePersonModal == null) {
+                Console.WriteLine("Error: CreatePersonModal is STILL NULL after initialization!");
+            }
+            else {
+                Console.WriteLine("CreatePersonModal successfully initialized!");
+            }
+
+            return Page();
+        }
     }
 }

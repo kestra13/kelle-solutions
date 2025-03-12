@@ -1,7 +1,7 @@
 @page
 @model KelleSolutions.Pages.Entities.CreateEntitiesModel
 @{
-    ViewData["Title"] = "Add New Vendor";
+    ViewData["Title"] = "Add New Entity";
 }
 
 <link rel="stylesheet" href="~/css/mainpages.css" />
@@ -15,7 +15,7 @@
             </svg>
         </a>
         <span>/</span> 
-        <a href="/Entities/Entities">Vendors</a>
+        <a href="/Entities/Entities">Entities</a>
         <span>/</span> 
         <span class="pagename-text">Add New</span>
     </p>
@@ -24,36 +24,43 @@
 <div class="content-container">
     <form method="post" class="form-group">
         <div class="mb-3">
-            <label asp-for="Entity.Name" class="form-label">Business Name</label>
-            <input asp-for="Entity.Name" class="form-control" />
-            <span asp-validation-for="Entity.Name" class="text-danger"></span>
+            <label asp-for="Entity.EntityName" class="form-label">Business Name</label>
+            <input asp-for="Entity.EntityName" class="form-control" required />
+            <span asp-validation-for="Entity.EntityName" class="text-danger"></span>
         </div>
 
         <div class="mb-3">
             <label asp-for="Entity.Category" class="form-label">Category</label>
-            <select asp-for="Entity.Category" class="form-control form-select">
+            <select asp-for="Entity.Category" class="form-control form-select" required>
                 <option value="">Select Category</option>
-                <option value="Broker">Broker</option>
-                <option value="Contractor">Contractor</option>
-                <option value="Escrow">Escrow</option>
+                @foreach (var category in Model.Categories)
+                {
+                    <option value="@category.CategoryId">@category.Name</option>
+                }
             </select>
             <span asp-validation-for="Entity.Category" class="text-danger"></span>
         </div>
 
         <div class="mb-3">
             <label asp-for="Entity.Phone" class="form-label">Phone Number</label>
-            <input asp-for="Entity.Phone" class="form-control" type="tel" />
+            <input asp-for="Entity.Phone" class="form-control" type="tel" required />
             <span asp-validation-for="Entity.Phone" class="text-danger"></span>
         </div>
 
         <div class="mb-3">
-            <label asp-for="Entity.Location" class="form-label">Location</label>
-            <input asp-for="Entity.Location" class="form-control" />
-            <span asp-validation-for="Entity.Location" class="text-danger"></span>
+            <label class="form-label">Location</label>
+            <div class="d-flex">
+                <input asp-for="Entity.City" class="form-control me-2" placeholder="City" required />
+                <input asp-for="Entity.StateProvince" class="form-control me-2" placeholder="State" required />
+                <input asp-for="Entity.Country" class="form-control" placeholder="Country" required />
+            </div>
+            <span asp-validation-for="Entity.City" class="text-danger"></span>
+            <span asp-validation-for="Entity.StateProvince" class="text-danger"></span>
+            <span asp-validation-for="Entity.Country" class="text-danger"></span>
         </div>
 
         <div class="mt-4">
-            <button type="submit" class="btn btn-primary me-2">Create Vendor</button>
+            <button type="submit" class="btn btn-primary me-2">Create Entity</button>
             <a href="/Entities/Entities" class="btn btn-outline-secondary">Cancel</a>
         </div>
     </form>

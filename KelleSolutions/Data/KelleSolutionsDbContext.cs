@@ -38,7 +38,7 @@ namespace KelleSolutions.Data
                 new IdentityRole { Name = "Broker", NormalizedName = "BROKER" },
                 new IdentityRole { Name = "Agent", NormalizedName = "AGENT" });
 
-            // ✅ Keep cascade delete for PropertyID
+            // Keep cascade delete for PropertyID
             builder.Entity<Listing>()
                 .HasOne(l => l.Property)
                 .WithMany(p => p.Listings)
@@ -64,6 +64,26 @@ namespace KelleSolutions.Data
             builder.Entity<Listing>()
                 .Property(l => l.Affiliation)
                 .HasColumnType("nvarchar(50)");
+
+            builder.Entity<Person>()
+                .HasOne(p => p.TeamNavigation)
+                .WithMany()
+                .HasForeignKey(p => p.Team)
+                // this prevents cascading deletes
+                .OnDelete(DeleteBehavior.Restrict);
+            
+            builder.Entity<Team>()
+                .HasData(
+                    new Team { TeamId = 1, Affiliation = "Scrumbags"},
+                    new Team { TeamId = 2, Affiliation = "KelleSolutions"}
+                );
+
+            builder.Entity<Category>()
+                .HasData(
+                    new Category { CategoryId = 1, Name = "Admin"},
+                    new Category { CategoryId = 2, Name = "Broker"},
+                    new Category { CategoryId = 3, Name = "Tenant"}
+                );
         }
 
         // DbSet for Tenants
@@ -86,6 +106,15 @@ namespace KelleSolutions.Data
 
         // DbSet for Entities
         public DbSet<Entity> Entities { get; set; }
+
+        // DbSet for People
+        public DbSet<Person> People { get; set; }
+
+        // DbSet for Teams
+        public DbSet<Team> Teams { get; set; }
+
+        // DbSet for Categories
+        public DbSet<Category> Categories { get; set; }
 
     }
 }

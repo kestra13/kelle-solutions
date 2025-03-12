@@ -19,6 +19,9 @@ builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfi
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<KelleSolutionsDbContext>();
 
+// Registers UserManager<User> for injection
+builder.Services.AddScoped<UserManager<User>>();
+
 // Registers Razor Pages for UI Rendering
 builder.Services.AddRazorPages();
 

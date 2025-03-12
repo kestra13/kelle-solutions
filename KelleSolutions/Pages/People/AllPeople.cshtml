@@ -1,6 +1,6 @@
 @page
-@model KelleSolutions.Pages.People.MyPeopleModel
-@{ ViewData["Title"] = "My People"; }
+@model KelleSolutions.Pages.People.AllPeopleModel
+@{ ViewData["Title"] = "All People"; }
 
 <!-- Styles and Header -->
 <link rel="stylesheet" href="~/css/mainpages.css" />
@@ -13,45 +13,8 @@
                 <path d="M240-200h133.85v-237.69h212.3V-200H720v-360L480-740.77 240-560v360Zm-60 60v-450l300-225.77L780-590v450H526.15v-237.69h-92.3V-140H180Zm300-330.38Z"/>
             </svg>
         </a>
-        <span>/</span> <span class="pagename-text">My Affiliation</span>
+        <span>/</span> <span class="pagename-text">View All People</span>
     </p>
-</div>
-
-<!-- Filters & Buttons -->
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <div class="d-flex">
-        <!-- Filter by role -->
-        <div class="dropdown me-2">
-            <label for="roleDropdown" class="button-label">Role</label>
-            <button id="roleDropdown" class="btn btn-outline dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Select Role
-            </button>
-            <ul class="dropdown-menu p-2">
-                <li><input class="form-check-input me-2 option-checkbox" type="checkbox" id="role1"><label class="form-check-label" for="role1">Admin</label></li>
-                <li><input class="form-check-input me-2 option-checkbox" type="checkbox" id="role2"><label class="form-check-label" for="role2">Broker</label></li>
-                <li><input class="form-check-input me-2 option-checkbox" type="checkbox" id="role3"><label class="form-check-label" for="role3">Agent</label></li>
-            </ul>
-        </div>
-        <!-- Filter by location -->
-        <div class="dropdown">
-            <label for="locationDropdown" class="button-label">Location</label>
-            <button id="locationDropdown" class="btn btn-outline dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Select Location
-            </button>
-            <ul class="dropdown-menu p-2">
-                <li><input class="form-check-input me-2 option-checkbox" type="checkbox" id="location1"><label class="form-check-label" for="location1">Elk Grove</label></li>
-                <li><input class="form-check-input me-2 option-checkbox" type="checkbox" id="location2"><label class="form-check-label" for="location2">Natomas</label></li>
-                <li><input class="form-check-input me-2 option-checkbox" type="checkbox" id="location3"><label class="form-check-label" for="location3">Sacramento</label></li>
-            </ul>
-        </div>
-    </div>
-    <!-- Add Person Button -->
-    <button class="gradient-button btn btn-primary" data-bs-toggle="modal" data-bs-target="#CreatePersonModal">
-        Add
-        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368">
-            <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/>
-        </svg>
-    </button>
 </div>
 
 <!-- People Table -->
@@ -62,47 +25,43 @@
                 <th>ID</th>
                 <th>First Name</th>
                 <th>Last Name</th>
+                <th>Display Name</th>
                 <th>Email</th>
                 <th>Phone</th>
+                <th>Affiliation</th>
                 <th>Role</th>
                 <th>Location</th>
+                <th>Do Not Contact</th>
             </tr>
         </thead>
         <tbody>
-            @if (Model.MyPeople.Any()) {
-                @foreach (var person in Model.MyPeople) {
+            @if (Model.AllPeople.Any()) {
+                @foreach (var person in Model.AllPeople) {
                     <tr>
                         <td>@person.Code</td>
                         <td>@person.Name_First</td>
                         <td>@person.Name_Last</td>
+                        <td>@person.Name_Display</td>
                         <td>@person.Email_Primary</td>
                         <td>@person.Phone_Primary</td>
+                        <td>@person.Team</td>
                         <td>@person.Category.Name</td>
                         <td>@person.City, @person.StateProvince</td>
+                        <td>@(person.DoNot_Contact ? "Yes" : "No")</td>
                     </tr>
                 }
             }
             else {
                 <!-- Display a "No records found" row when the table is empty -->
                 <tr>
-                    <td colspan="7" class="text-center text-muted py-3">
-                        No people found. Try adding a new person using the "Add" button above.
+                    <td colspan="10" class="text-center text-muted py-3">
+                        No people found.
                     </td>
                 </tr>
             }
         </tbody>
     </table>
 </div>
-
-<!-- Include the modal -->
-@if (Model?.CreatePersonModal != null) {
-    <partial name="CreatePersonModal" model="Model.CreatePersonModal" />
-}
-else {
-    <p>Error: CreatePersonModal is not initialized.</p>
-}
-
-
 
 <!-- Pagination Section -->
 <div class="pagination-section">
@@ -127,8 +86,8 @@ else {
         <div class="page-desc">
             <span>
                 @((Model.PageNumber - 1) * Model.PageSize + 1) - 
-                @(System.Math.Min(Model.PageNumber * Model.PageSize, Model.MyPeople.Count))
-                of @Model.MyPeople.Count
+                @(System.Math.Min(Model.PageNumber * Model.PageSize, Model.AllPeople.Count))
+                of @Model.AllPeople.Count
             </span>
         </div>
 
@@ -148,6 +107,23 @@ else {
                 </span>
             }
         </div>
+
+        <div class="page-btn">
+            @if (Model.PageNumber < Model.TotalPages) {
+                <a href="?PageNumber=@(Model.PageNumber + 1)&PageSize=@Model.PageSize">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368">
+                        <path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/>
+                    </svg>
+                </a>
+            }
+            else {
+                <span class="disabled-arrow">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#d3d3d3">
+                        <path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/>
+                    </svg>
+                </span>
+            }
+        </div>
     </div>
 </div>
 
@@ -159,4 +135,3 @@ else {
         }
     </script>
 }
-

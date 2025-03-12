@@ -1,0 +1,225 @@
+@model KelleSolutions.Pages.People.CreatePersonModalModel
+@{ ViewData["Title"] = "Create Person"; }
+
+<style>
+    /* Blur effect for background content when modal is open */
+    .modal-backdrop {
+        background-color: rgba(255, 255, 255, 0.2) !important;
+        backdrop-filter: blur(8px);
+    }
+
+    /* Ensure modal opens in the center of the viewport */
+    .modal-dialog {
+        display: flex;
+        align-items: center;
+        min-height: 100vh;
+    }
+
+    /* Modal header styling */
+    .modal-header {
+        background: #4a154b; /* Deep purple, matching Property Modal */
+        color: #ffffff;
+        padding: 15px;
+        border-bottom: none;
+    }
+
+    /* Styled submit button */
+    .submit-button {
+        background: #4a154b;
+        color: #ffffff;
+        font-weight: bold;
+        padding: 10px 20px;
+        border-radius: 4px;
+        border: none;
+        width: auto;
+        text-align: center;
+        display: block;
+        margin: 20px auto 0 auto;
+        transition: background 0.3s ease;
+    }
+    .submit-button:hover {
+        background: linear-gradient(90deg, #ecb22e, #e01e5a);
+    }
+
+    /* Cancel button styling */
+    .cancel-button {
+        background: #ffffff;
+        color: #4a154b;
+        border: 1px solid #4a154b;
+        font-weight: bold;
+        padding: 10px 20px;
+        border-radius: 4px;
+        width: auto;
+        text-align: center;
+        display: block;
+        margin: 20px auto 0 auto;
+        transition: background 0.3s ease, color 0.3s ease;
+    }
+    .cancel-button:hover {
+        background: #4a154b;
+        color: #ffffff;
+    }
+
+    /* Input field styling */
+    .form-control {
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        padding: 10px;
+        font-size: 16px;
+    }
+
+    /* Custom dropdown styling */
+    .dropdown-arrow {
+        appearance: none;
+        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="black"><path d="M7 10l5 5 5-5z"/></svg>');
+        background-repeat: no-repeat;
+        background-position: right 10px center;
+        background-size: 12px;
+        padding-right: 30px; /* Space for the arrow */
+    }
+</style>
+
+<!-- Modal Structure -->
+@if (Model != null) {
+    <div class="modal fade" id="CreatePersonModal" tabindex="-1" aria-labelledby="CreatePersonModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Create Person</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="createPersonForm" method="post" asp-page="CreatePersonModal">
+                        <!-- First Name (Required) -->
+                        <div class="mb-3">
+                            <label for="Name_First" class="form-label">First Name</label>
+                            <input type="text" asp-for="NewPerson.Name_First" id="Name_First" class="form-control" required />
+                        </div>
+
+                        <!-- Middle Name (Optional) -->
+                        <div class="mb-3">
+                            <label for="Name_Middle" class="form-label">Middle Name</label>
+                            <input type="text" asp-for="NewPerson.Name_Middle" id="Name_Middle" class="form-control" />
+                        </div>
+
+                        <!-- Last Name (Required) -->
+                        <div class="mb-3">
+                            <label for="Name_Last" class="form-label">Last Name</label>
+                            <input type="text" asp-for="NewPerson.Name_Last" id="Name_Last" class="form-control" required />
+
+                        </div>
+
+                        <!-- Email (Required) -->
+                        <div class="mb-3">
+                            <label for="Email_Primary" class="form-label">Email</label>
+                            <input type="email" asp-for="NewPerson.Email_Primary" id="Email_Primary" class="form-control" required />
+                        </div>
+
+                        <!-- Phone (Required) -->
+                        <div class="mb-3">
+                            <label for="Phone_Primary" class="form-label">Phone</label>
+                            <input type="tel" asp-for="NewPerson.Phone_Primary" id="Phone_Primary" class="form-control" required />
+                        </div>
+
+                        <!-- Team (Required) -->
+                        <div class="mb-3">
+                            <label for="Team" class="form-label">Team</label>
+                            <select asp-for="NewPerson.Team" id="Team" class="form-select" required>
+                                <option value="">Select a Team</option>
+                                @if (Model.Teams != null) {
+                                    @foreach (var team in Model.Teams) {
+                                        <option value="@team.TeamId">@team.Affiliation</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+
+                        <!-- Category (Required) -->
+                        <div class="mb-3">
+                            <label for="CategoryId" class="form-label">Category</label>
+                            <select asp-for="NewPerson.CategoryId" id="CategoryId" class="form-select" required>
+                                <option value="">Select a Category</option>
+                                @if (Model.Categories != null)
+                                {
+                                    @foreach (var category in Model.Categories)
+                                    {
+                                        <option value="@category.CategoryId">@category.Name</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button id="submitPersonBtn" type="submit" class="btn btn-primary">Save</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            setTimeout(() => { // Ensure modal elements exist before running
+                var form = document.getElementById("createPersonForm");
+                var modalElement = document.getElementById("CreatePersonModal");
+                var submitButton = document.getElementById("submitPersonBtn");
+
+                if (!form || !submitButton || !modalElement) {
+                    console.error("Error: One or more elements not found! Check form, submit button, and modal.");
+                    return;
+                }
+
+                form.addEventListener("submit", function (event) {
+                    event.preventDefault(); // Prevent default form submission
+
+                    submitButton.disabled = true; // Prevent multiple clicks
+
+                    var formData = new FormData(form);
+
+                    for (let [key, value] of formData.entries()) {
+                        console.log(key, value);
+                    }
+
+                    var formDataObj = {};
+                    formData.forEach((value, key) => {
+                        formDataObj[key] = value;
+                    });
+                    console.log(formDataObj);
+
+                    fetch(window.location.pathname, { 
+                        method: "POST",
+                        body: formData
+                    })
+                    .then(response => response.json()) // Expecting JSON response
+                    .then(data => {
+                        if (data.success) {
+                            console.log("Form submitted successfully!");
+
+                            // Close the modal after successful submission
+                            var modalInstance = bootstrap.Modal.getInstance(modalElement);
+                            modalInstance.hide();
+
+                            // Reload the page or update the table dynamically
+                            location.reload();
+                        } else {
+                            console.error("Form submission failed!", data.errors);
+                            alert("Submission failed: " + data.errors.join(", "));
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error submitting form:", error);
+                        alert("An error occurred while submitting the form.");
+                    })
+                    .finally(() => {
+                        submitButton.disabled = false; // Re-enable submit button
+                    });
+                });
+            }, 300); // Add delay to ensure modal exists
+        });
+        </script>
+}
+else {
+    <p style="color: red;">Error: Model is missing.</p>
+}
+
