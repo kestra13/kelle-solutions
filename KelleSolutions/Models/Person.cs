@@ -2,6 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
+<<<<<<< HEAD
 namespace KelleSolutions.Models {
     public class Person {
         // Primary Key
@@ -138,5 +139,20 @@ namespace KelleSolutions.Models {
 
         // Category Property
         public virtual Category? Category { get; set; }
+=======
+namespace KelleSolutions.Models
+{
+    public class Person
+    {
+        public int Id { get; set; }
+        public string? Name { get; set; }
+        public string? PhoneNumber { get; set; }
+        public string? Email { get; set; }
+        public DateTime Created { get; set; }
+        public string? OperatorName { get; set; }
+        public ICollection<PersonToPerson> PersonToPeople { get; set; } = new List<PersonToPerson>();
+        public ICollection<PersonToProperties> TenantToPeople { get; set; } = new List<PersonToProperties>();
+        public ICollection<PersonToListing> PersonToListing { get; set; }
+>>>>>>> ac7a374014d444c8b4faf860756d2f65e15f04fa
     }
 }

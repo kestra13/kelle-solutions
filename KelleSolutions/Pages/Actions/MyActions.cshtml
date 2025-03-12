@@ -1,0 +1,269 @@
+@page
+@model KelleSolutions.Pages.Actions.CreateActionModel
+
+@{
+    ViewData["Title"] = "User Actions";
+}
+
+<link rel="stylesheet" href="~/css/actions.css" />
+<!--<link href="https://fonts.googleapis.com/css2?family=Sora:wght@100;200;250;300;400;500;600&display=swap" rel="stylesheet">-->
+
+<style>
+
+</style>
+
+<body>
+
+<div class="header-section">
+        <a href="/AT_Dashboard">
+            <svg xmlns="http://www.w3.org/2000/svg" height="1.2em" viewBox="0 -960 960 960" width="1.2em" fill="#5f6368">
+                <path d="M240-200h133.85v-237.69h212.3V-200H720v-360L480-740.77 240-560v360Zm-60 60v-450l300-225.77L780-590v450H526.15v-237.69h-92.3V-140H180Zm300-330.38Z"/>
+            </svg>
+        </a>
+        <span>/</span> <span class="pagename-text">Actions</span>
+</div>
+
+<!-- Dashboard Content -->
+<div class="dashboard-container">
+    <!-- Left Column -->
+    <div class="action-list">
+        <div class="widget">
+            <div class="widget-header">
+                Actions
+            </div>
+            <div>
+                <div class="filter-container">
+                    <button class="btn btn-outline dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <span class="button-text">Category</span>
+                    </button>
+                    <button class="btn btn-outline dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <span class="button-text">Relation</span>
+                    </button>
+                    <div>
+                        <div class="checkbox-container">
+                            <div class="checkbox-group">
+                                <div class="checkbox-filter">
+                                    <input id="due" type="checkbox">
+                                    <label for="due">Due</label>
+                                </div>
+                                <div class="checkbox-filter">
+                                    <input id="important" type="checkbox">
+                                    <label for="important">Important</label>
+                                </div>
+                                <div class="checkbox-filter">
+                                    <input id="completed" type="checkbox">
+                                    <label for="completed">Completed</label>
+                                </div>
+                            </div>
+                            <div class="date-sort" onclick="toggleSVG(this)">
+                                <span>Due Date</span>
+                                <svg class="sort-icon" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368" data-state="up">
+                                    <path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="white-box">
+                <div class="widget-content">
+                    @foreach (var action in Model.ActionEntities)
+                    {
+                        <div class="checkbox-filter">
+                            <input type="checkbox">
+                            <div class="action-item">
+                                <div class="graphics-container">
+                                    <div class="graphics">
+                                        <div class="icon-circle">
+                                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368">
+                                                <path d="M172.31-180Q142-180 121-201q-21-21-21-51.31v-455.38Q100-738 121-759q21-21 51.31-21h615.38Q818-780 839-759q21 21 21 51.31v455.38Q860-222 839-201q-21 21-51.31 21H172.31ZM480-457.69 160-662.31v410q0 5.39 3.46 8.85t8.85 3.46h615.38q5.39 0 8.85-3.46t3.46-8.85v-410L480-457.69Zm0-62.31 313.85-200h-627.7L480-520ZM160-662.31V-720v467.69q0 5.39 3.46 8.85t8.85 3.46H160v-422.31Z"/>
+                                            </svg>
+                                        </div>
+                                        <div class="icon-container">
+                                            <div class="connector"></div>
+                                        </div>
+                                    </div>
+                                    <div class="horizontal-connector"></div>
+                                </div>
+                                <div class="action-content">
+                                    <div class="action-title">@action.Title</div>
+                                    <div class="action-details">
+                                        <span class="name">@action.Operator</span>
+                                        to @action.Category by <span class="date">@action.Due.ToShortDateString()</span>
+                                        <a href="#" class="details-link">(Details)</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="create-action">
+        <div class="widget">
+            <div class="widget-header">
+                Create action
+            </div>
+            <div class="white-box">
+            <form method="post">
+                <div class="input-container">
+                    <div>
+                        <label asp-for="ActionEntity.Title" class="button-label">Action*</label>
+                        <input asp-for="ActionEntity.Title" type="text" class="form-control">
+                    </div>
+
+                    <div class="dropdown-container">
+                        <!--Operator-->
+                        <div class="dropdown">
+                            <label asp-for="ActionEntity.Operator" class="button-label">Operator*</label>
+                            <button class="btn btn-outline dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span class="button-text">Select Operator</span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item status-option" href="#" data-value="Me">Me</a></li>
+                                <li><a class="dropdown-item status-option" href="#" data-value="John Smith">John Smith</a></li>
+                            </ul>
+                        </div>
+                        
+                        <!--Team-->
+                        <div class="dropdown">
+                            <label asp-for="ActionEntity.Team" class="button-label">Team</label>
+                            <button class="btn btn-outline dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span class="button-text">Select Team</span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item status-option" href="#" data-value="Collins & Carter">Collins & Carter</a></li>
+                                <li><a class="dropdown-item status-option" href="#" data-value="Jackson & Reed">Jackson & Reed</a></li>
+                                <li><a class="dropdown-item status-option" href="#" data-value="Parker & Ellis">Parker & Ellis</a></li>
+                            </ul>
+                        </div>
+
+                        <!--Visibilty-->
+                        <div class="dropdown">
+                            <label asp-for="ActionEntity.Visibility" class="button-label">Visibilty</label>
+                            <button class="btn btn-outline dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span class="button-text">Select Visibility</span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item status-option" href="#" data-value="Operator/Broker">Operator/Broker</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="dropdown-container">
+
+                        <!--Category-->
+                        <div class="dropdown">
+                            <label asp-for="ActionEntity.Category" class="button-label">Category*</label>
+                            <button class="btn btn-outline dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span class="button-text">Select Category</span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item status-option" href="#" data-value="Email">Email</a></li>
+                                <li><a class="dropdown-item status-option" href="#" data-value="Close Listing">Close Listing</a></li>
+                            </ul>
+                            <!-- Hidden input to store the selected category for form submission -->
+                            <input type="hidden" asp-for="ActionEntity.Category"/>
+                        </div>
+
+                        <!--Tag-->
+                        <div class="dropdown">
+                            <label asp-for="ActionEntity.Tag" class="button-label">Tag</label>
+                            <button class="btn btn-outline dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span class="button-text">Select Tag</span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item status-option" href="#" data-value="John Smith">John Smith</a></li>
+                                <li><a class="dropdown-item status-option" href="#" data-value="Paul Brently">Paul Brently</a></li>
+                                <li><a class="dropdown-item status-option" href="#" data-value="Mia Parker">Mia Parker</a></li>
+                            </ul>
+                            <input type="hidden" asp-for="ActionEntity.Tag"/>
+                        </div>
+
+                        <!--due-->
+                        <div>
+                            <label asp-for="ActionEntity.Due" class="button-label">Due*</label>
+                            <input asp-for="ActionEntity.Due" type="date" class="form-control date-picker">
+                        </div>
+                    </div>
+
+                    <div class="dropdown-container">
+                        <!--relations -->
+                        <div class="dropdown">
+                            <label asp-for="ActionEntity.Relation" class="button-label">Relation</label>
+                            <button asp-for="ActionEntity.Relation" class="btn btn-outline dropdown-toggle relation-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span class="button-text">Select</span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item status-option" href="#" data-value="Property">Property</a></li>
+                                <li><a class="dropdown-item status-option" href="#" data-value="Lead">Lead</a></li>
+                                <li><a class="dropdown-item status-option" href="#" data-value="Listing">Listing</a></li>
+                            </ul>
+                        </div>
+                        <input id="relation" type="text" class="form-control">
+                    </div>
+                    <!--comments-->
+                    <div>
+                        <label for="commentInput" class="button-label">Comments</label>
+                        <textarea id="commentInput" type="text" class="form-control action-comment"></textarea>
+                    </div>
+                    <!-- Important Checkbox -->
+                    <div class="dropdown-container">
+                        <div class="important-checkbox">
+                            <input id="importantCheckbox" type="checkbox">
+                            <label for="importantCheckbox">Important</label>
+                        </div>
+                        <div>
+                            <button type="submit" class="btn create-btn">
+                                Create action
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+
+@section Scripts {
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".dropdown").forEach(dropdown => {
+            const dropdownButton = dropdown.querySelector(".dropdown-toggle");
+            const hiddenInput = dropdown.querySelector("input[type='hidden']");
+            const dropdownItems = dropdown.querySelectorAll(".dropdown-item");
+
+            dropdownItems.forEach(item => {
+                item.addEventListener("click", function (e) {
+                    e.preventDefault();
+                    const selectedValue = this.getAttribute("data-value");
+
+                    // Update only the dropdown that was clicked
+                    dropdownButton.querySelector(".button-text").textContent = selectedValue;
+                    hiddenInput.value = selectedValue;
+                });
+            });
+        });
+    });
+
+    function toggleSVG(element) {
+        let svg = element.querySelector(".sort-icon");
+
+        // Define both SVGs as strings
+        const upArrow = `<path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z"/>`;
+        const downArrow = `<path d="M440-160v-487L216-423l-56-57 320-320 320 320-56 57-224-224v487h-80Z"/>`;
+
+        // Swap the SVG path
+        if (svg.dataset.state === "up") {
+            svg.innerHTML = downArrow;
+            svg.dataset.state = "down"; // Update state
+        } else {
+            svg.innerHTML = upArrow;
+            svg.dataset.state = "up"; // Update state
+        }
+    }
+</script>
+}

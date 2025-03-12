@@ -29,5 +29,14 @@ namespace KelleSolutions.Models {
 
         [ForeignKey("TenantID")]
         public virtual Tenant? Tenant { get; set; }
+<<<<<<< HEAD
+=======
+
+        // Timestamps
+        public DateTime DateCreated { get; set; } = DateTime.UtcNow;
+        public DateTime DateUpdated { get; set; } = DateTime.UtcNow;
+
+        public virtual Dashboard Dashboard { get; set; } // One-to-One relationship
+>>>>>>> ac7a374014d444c8b4faf860756d2f65e15f04fa
     }
 }

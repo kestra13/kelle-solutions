@@ -78,6 +78,63 @@ namespace KelleSolutions.Data
                     new Team { TeamId = 2, Affiliation = "KelleSolutions"}
                 );
 
+            // Define the parent-child relationship within PermissionGroups
+            builder.Entity<PermissionGroup>()
+                .HasMany(pg => pg.ChildGroups)
+                .WithOne(pg => pg.ParentGroup)
+                .HasForeignKey(pg => pg.ParentGroupID)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Set up the relationship between PermissionGroup and Permissions
+            builder.Entity<PermissionGroup>()
+                .HasOne(pg => pg.Permission)
+                .WithMany()
+                .HasForeignKey(pg => pg.PermissionID)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<PermissionGroup>()
+                .Property(pg => pg.Created)
+                .HasDefaultValueSql("GETUTCDATE()");
+
+            builder.Entity<PermissionGroup>()
+                .Property(pg => pg.Updated)
+                .HasDefaultValueSql("GETUTCDATE()");
+
+            builder.Entity<RolePermissionGroupEntity>()
+                .HasKey(rpge => new { rpge.RoleID, rpge.PermissionGroupID, rpge.PageAccessID });
+
+            builder.Entity<RolePermissionGroupEntity>()
+                .HasOne(rpge => rpge.RoleNavigation)
+                .WithMany()
+                .HasForeignKey(rpge => rpge.RoleID);
+
+            builder.Entity<RolePermissionGroupEntity>()
+                .HasOne(rpge => rpge.PermissionGroupNavigation)
+                .WithMany()
+                .HasForeignKey(rpge => rpge.PermissionGroupID);
+
+            builder.Entity<RolePermissionGroupEntity>()
+                .HasOne(rpge => rpge.PageAccess)
+                .WithMany()
+                .HasForeignKey(rpge => rpge.PageAccessID);
+
+            builder.Entity<PersonToListing>()
+                .HasOne(ptl => ptl.Person)
+                .WithMany(p => p.PersonToListing) // One person can be linked to many listings
+                .HasForeignKey(ptl => ptl.PersonId)
+                .OnDelete(DeleteBehavior.Restrict); // Prevents cascade delete
+
+            builder.Entity<PersonToListing>()
+                .HasOne(ptl => ptl.Listing)
+                .WithMany(l => l.PersonToListing) // One listing can have multiple people linked
+                .HasForeignKey(ptl => ptl.ListingId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Dashboard>()
+                .HasOne(d => d.User)
+                .WithOne(u => u.Dashboard)
+                .HasForeignKey<Dashboard>(d => d.UserId)
+                .OnDelete(DeleteBehavior.Cascade); // If a user is deleted, their dashboard is deleted too
             builder.Entity<Category>()
                 .HasData(
                     new Category { CategoryId = 1, Name = "Admin"},
@@ -107,6 +164,17 @@ namespace KelleSolutions.Data
         // DbSet for Entities
         public DbSet<Entity> Entities { get; set; }
 
+        // DbSet for Permissions
+        public DbSet<Permission> Permissions { get; set; }
+
+        // DbSet for PermissionGroup
+        public DbSet<PermissionGroup> PermissionGroups { get; set; }
+
+        // DbSet for PersonToEntity
+        public DbSet<PersonToEntity> PersonToEntity { get; set; }
+
+        // DbSet for RolePermissionGroupEntity
+        public DbSet<RolePermissionGroupEntity> RolePermissionGroupEntity { get; set; }
         // DbSet for People
         public DbSet<Person> People { get; set; }
 
@@ -115,6 +183,9 @@ namespace KelleSolutions.Data
 
         // DbSet for Categories
         public DbSet<Category> Categories { get; set; }
+
+        //DbSet for PersonToProperties
+        public DbSet<PersonToProperties> PersonToProperties {get;set;}
 
     }
 }

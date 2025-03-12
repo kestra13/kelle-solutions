@@ -80,5 +80,7 @@ namespace KelleSolutions.Models {
         // Navigation properties
         public virtual required Property Property { get; set; }
         public virtual required User Agent { get; set; }
+
+        public ICollection<PersonToListing> PersonToListing { get; set; }
     }
 }

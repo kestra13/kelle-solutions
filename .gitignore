@@ -57,3 +57,6 @@ Thumbs.db                  # Windows thumbnail cache files
 # Production specific files
 /wwwroot                   # Static files for production deployment
 /hostingstart.html         # Default hosting start page
+/KelleSolutions/appsettings.json
+/.vs/kelle-solutions/v17/DocumentLayout.json
+/.vs/kelle-solutions/v17/.wsuo
