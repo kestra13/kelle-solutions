@@ -74,13 +74,27 @@ namespace KelleSolutions.Pages.Entities
                 return BadRequest(new { success = false, message = "All required fields must be filled." });
             }
 
-            entity.EntityName = Request.Form["EntityName"];
-            entity.Category = short.TryParse(Request.Form["Category"], out var category) ? category : entity.Category;
-            entity.Phone = Request.Form["Phone"];
-            entity.City = Request.Form["City"];
-            entity.StateProvince = Request.Form["StateProvince"];
-            entity.Country = Request.Form["Country"];
-            entity.Updated = System.DateTime.UtcNow;
+            // Assign values only if they exist in the request
+            if (!string.IsNullOrEmpty(Request.Form["EntityName"]))
+                entity.EntityName = Request.Form["EntityName"];
+
+            if (short.TryParse(Request.Form["Category"], out var category))
+                entity.Category = category;
+
+            if (!string.IsNullOrEmpty(Request.Form["Phone"]))
+                entity.Phone = Request.Form["Phone"];
+
+            if (!string.IsNullOrEmpty(Request.Form["City"]))
+                entity.City = Request.Form["City"];
+
+            if (!string.IsNullOrEmpty(Request.Form["StateProvince"]))
+                entity.StateProvince = Request.Form["StateProvince"];
+
+            if (!string.IsNullOrEmpty(Request.Form["Country"]))
+                entity.Country = Request.Form["Country"];
+
+            // Update timestamp
+            entity.Updated = DateTime.UtcNow;
 
             await _context.SaveChangesAsync();
             return new JsonResult(new { success = true, message = "Entity updated successfully." });
