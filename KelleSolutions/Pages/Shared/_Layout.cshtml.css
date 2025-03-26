@@ -166,3 +166,16 @@ label.required::after {
 .hidden {
   display: none;
 }
+
+.text-warning {
+  color: #e64b7b !important;
+}
+
+.text-danger{
+  color: #e64b7b !important;
+  font-weight:300 !important;
+}
+
+.input-validation-error {
+  border:1px solid #e01e5a !important;
+}

@@ -51,3 +51,49 @@ body {
     position: relative;
     top: 5px; /* Adjust to align with other navbar elements */
 }
+
+.text-warning {
+  color: #e64b7b !important;
+}
+
+.text-danger{
+  color: #e64b7b !important;
+  font-weight:400 !important;
+}
+
+.input-validation-error {
+  border:1px solid #e01e5a !important;
+}
+
+.form-control:focus {
+  
+}
+
+.form-control {
+  color: #332d2d;
+  border: 1px solid #444;
+  border-radius: 4px;
+}
+/* shows shadow when focused*/
+.form-control:focus, .form-select:focus{
+  border: 1px #332d2d solid;
+  box-shadow: 1px solid #c1c6de;
+  background-color: transparent;
+}
+
+.form-control {
+  color: #332d2d;
+  border: 1px solid #444;
+  border-radius: 4px;
+}
+/* shows shadow when focused*/
+.form-control:focus, .form-select:focus{
+  border: 1px #332d2d solid;
+  box-shadow: 1px solid #c1c6de;
+  background-color: transparent;
+}
+
+/*border of select when not focused*/
+.form-select {
+  border: 1px solid;
+}

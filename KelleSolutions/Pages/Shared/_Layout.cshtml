@@ -25,7 +25,7 @@
     <link rel="stylesheet" href="~/KelleSolutions.styles.css" asp-append-version="true" />
 </head>
 <body>
-    @if (Context.Request.Path != "/Admin/adminDashboard")
+    @if (Context.Request.Path != "/Admin/adminDashboard" && Context.Request.Path != "/mypage/mypage" )
     {
         <header>
             <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark border-bottom box-shadow mb-3">

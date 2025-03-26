@@ -10,11 +10,11 @@ namespace KelleSolutions.Models
 
         // Name of the Affiliate
         [Required(ErrorMessage = "Name is required")]
-        public string Name { get; set; }
+        public string ? Name { get; set; }
 
         // Description of the Affiliate
         [Required(ErrorMessage = "Description is required")]
-        public string Description { get; set; }
+        public string ? Description { get; set; }
 
         // Date when the affiliate was created
         public DateTime CreatedDate { get; set; }

@@ -1,7 +1,7 @@
 @page
 @model KelleSolutions.Pages.Properties.PropertiesModel
 @{
-    ViewData["Title"] = "Users";
+    ViewData["Title"] = "People";
 }
 
 <link rel="stylesheet" href="~/css/mainpages.css" />
@@ -15,7 +15,7 @@
                 <path d="M240-200h133.85v-237.69h212.3V-200H720v-360L480-740.77 240-560v360Zm-60 60v-450l300-225.77L780-590v450H526.15v-237.69h-92.3V-140H180Zm300-330.38Z"/>
             </svg>
         </a>
-        <span>/</span> <span class="pagename-text">Users</span>
+        <span>/</span> <span class="pagename-text">Properties</span>
     </p>
 </div>
 
@@ -50,7 +50,9 @@
             <tr>
                 <th>#</th>
                 <th>User</th>
-                <th>Property Count</th>
+                <th></th>
+                <th></th>
+                <th></th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -60,9 +62,11 @@
                 <tr>
                     <td>@user.Id</td>
                     <td>@user.UserName</td>
-                    <td>@user.PeopleCount</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                     <td>
-                        <a href="/Properties/AllProperties" class="btn btn-link">View Properties</a>
+                        <a href="/Properties/AllProperties?userId=@user.Id" class="btn btn-link">View Properties</a>
                     </td>
                 </tr>
             }
@@ -75,7 +79,7 @@
         <div class="rows-per-page-container">
             <label for="pageSize" class="rowamount-label">Rows per page:</label>
             <div class="dropdown-wrapper">
-                <select id="pageSize" class="form-control dropdown-outline" onchange="updatePageSize()">
+                <select id="pageSize" class="form-control dropdown-outline">
                     <option value="5">5</option>
                     <option value="10" selected>10</option>
                     <option value="20">20</option>
@@ -94,6 +98,7 @@
                 1 - @Model.UserProperties.Count of @Model.UserProperties.Count
             </span>
         </div>
+
         <div class="page-btn">
             <span class="disabled-arrow">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#d3d3d3">
@@ -101,6 +106,7 @@
                 </svg>
             </span>
         </div>
+
         <div class="page-btn">
             <span class="disabled-arrow">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#d3d3d3">
@@ -110,6 +116,7 @@
         </div>
     </div>
 </div>
+
 </body>
 
 @section Scripts {
@@ -131,11 +138,5 @@
                 });
             });
         });
-    </script>
-    <script>
-        function updatePageSize() {
-            var pageSize = document.getElementById("pageSize").value;
-            window.location.href = "?PageSize=" + pageSize + "&PageNumber=1";
-        }
     </script>
 }

@@ -11,9 +11,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace KelleSolutions.Models {
     public class Lead {
-        // Primary key: Code (bigint NOT NULL)
+        // Primary key: Code (bigint NOT NULL) -- changed to int bc not compatible to link to person
         [Key]
-        public long Code { get; set; }
+        public int Code { get; set; }
 
         // Indicates if the lead is archived (bit NOT NULL)
         [Required]
@@ -21,8 +21,8 @@ namespace KelleSolutions.Models {
 
         // Timestamp when the lead was created (datetime2 NOT NULL)
         [Required]
-        [Column(TypeName = "datetime2")]
-        public DateTime Created { get; set; }
+      //[Column(TypeName = "datetime2")]
+        public DateTime? Created{ get; set; }
 
         // Timestamp when the lead was last updated (datetime2 NOT NULL)
         [Required]

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KelleSolutions.Migrations
 {
     [DbContext(typeof(KelleSolutionsDbContext))]
-    [Migration("20250318042514_InitialCreate")]
+    [Migration("20250325221646_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -204,11 +204,11 @@ namespace KelleSolutions.Migrations
 
             modelBuilder.Entity("KelleSolutions.Models.Lead", b =>
                 {
-                    b.Property<long>("Code")
+                    b.Property<int>("Code")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Code"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Code"));
 
                     b.Property<bool>("Archived")
                         .HasColumnType("bit");
@@ -230,7 +230,7 @@ namespace KelleSolutions.Migrations
                         .HasMaxLength(3)
                         .HasColumnType("nvarchar(3)");
 
-                    b.Property<DateTime>("Created")
+                    b.Property<DateTime?>("Created")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("DoNotContact")
@@ -699,6 +699,46 @@ namespace KelleSolutions.Migrations
                     b.ToTable("Person");
                 });
 
+            modelBuilder.Entity("KelleSolutions.Models.PersonToAffiliations", b =>
+                {
+                    b.Property<int>("Code")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Code"));
+
+                    b.Property<int>("Affiliate")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Comments")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
+
+                    b.Property<short>("Creator")
+                        .HasColumnType("smallint");
+
+                    b.Property<bool>("Deprecated")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Person")
+                        .HasColumnType("int");
+
+                    b.Property<short>("Relation")
+                        .HasColumnType("smallint");
+
+                    b.HasKey("Code");
+
+                    b.HasIndex("Affiliate");
+
+                    b.HasIndex("Person");
+
+                    b.ToTable("PersonToAffiliations");
+                });
+
             modelBuilder.Entity("KelleSolutions.Models.PersonToEntity", b =>
                 {
                     b.Property<int>("Code")
@@ -737,6 +777,46 @@ namespace KelleSolutions.Migrations
                     b.HasIndex("Person");
 
                     b.ToTable("PersonToEntity");
+                });
+
+            modelBuilder.Entity("KelleSolutions.Models.PersonToLeads", b =>
+                {
+                    b.Property<int>("Code")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Code"));
+
+                    b.Property<string>("Comments")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
+
+                    b.Property<short>("Creator")
+                        .HasColumnType("smallint");
+
+                    b.Property<bool>("Deprecated")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Lead")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Person")
+                        .HasColumnType("int");
+
+                    b.Property<short>("Relation")
+                        .HasColumnType("smallint");
+
+                    b.HasKey("Code");
+
+                    b.HasIndex("Lead");
+
+                    b.HasIndex("Person");
+
+                    b.ToTable("PersonToLeads");
                 });
 
             modelBuilder.Entity("KelleSolutions.Models.PersonToListing", b =>
@@ -1300,19 +1380,19 @@ namespace KelleSolutions.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "e9f24567-73c0-4173-8dc6-6c1720bfc6af",
+                            Id = "8966c7de-78ce-4138-b008-c77516a1f4a7",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "792da7b1-5c69-4d77-ae0f-667f31444749",
+                            Id = "f5aee51e-7e93-4287-a80c-b32e21965659",
                             Name = "Broker",
                             NormalizedName = "BROKER"
                         },
                         new
                         {
-                            Id = "cf4cd97f-8687-4a7d-8c22-5499bf8aacd1",
+                            Id = "825e22ab-17b8-40ca-ad29-2cfe36c6ee6d",
                             Name = "Agent",
                             NormalizedName = "AGENT"
                         });
@@ -1468,6 +1548,25 @@ namespace KelleSolutions.Migrations
                     b.Navigation("Permission");
                 });
 
+            modelBuilder.Entity("KelleSolutions.Models.PersonToAffiliations", b =>
+                {
+                    b.HasOne("KelleSolutions.Models.Affiliate", "AffiliationNavigation")
+                        .WithMany()
+                        .HasForeignKey("Affiliate")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("KelleSolutions.Models.Person", "PersonNavigation")
+                        .WithMany()
+                        .HasForeignKey("Person")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("AffiliationNavigation");
+
+                    b.Navigation("PersonNavigation");
+                });
+
             modelBuilder.Entity("KelleSolutions.Models.PersonToEntity", b =>
                 {
                     b.HasOne("KelleSolutions.Models.Entity", "EntityNavigation")
@@ -1483,6 +1582,25 @@ namespace KelleSolutions.Migrations
                         .IsRequired();
 
                     b.Navigation("EntityNavigation");
+
+                    b.Navigation("PersonNavigation");
+                });
+
+            modelBuilder.Entity("KelleSolutions.Models.PersonToLeads", b =>
+                {
+                    b.HasOne("KelleSolutions.Models.Lead", "LeadNavigation")
+                        .WithMany()
+                        .HasForeignKey("Lead")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("KelleSolutions.Models.Person", "PersonNavigation")
+                        .WithMany()
+                        .HasForeignKey("Person")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("LeadNavigation");
 
                     b.Navigation("PersonNavigation");
                 });

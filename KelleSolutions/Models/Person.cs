@@ -1,8 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace KelleSolutions.Models
 {
@@ -62,96 +60,96 @@ namespace KelleSolutions.Models
         // First name (varchar(30) NOT NULL)
         [Required(ErrorMessage = "First name is required")]
         [StringLength(30)]
-        public string NameFirst { get; set; }
+        public string ? NameFirst { get; set; }
 
         // Middle name (varchar(30) NOT NULL)
         [Required(ErrorMessage = "Middle name is required")]
         [StringLength(30)]
-        public string NameMiddle { get; set; }
+        public string ? NameMiddle { get; set; }
 
         // Last name (varchar(30) NOT NULL)
         [Required(ErrorMessage = "Last name is required")]
         [StringLength(30)]
-        public string NameLast { get; set; }
+        public string ? NameLast { get; set; }
 
         // Display name (varchar(92) NOT NULL)
         [Required(ErrorMessage = "Display name is required")]
         [StringLength(92)]
-        public string NameDisplay { get; set; }
+        public string ? NameDisplay { get; set; }
 
         // Headline (varchar(80) NOT NULL)
         [Required(ErrorMessage = "Headline is required")]
         [StringLength(80)]
-        public string Headline { get; set; }
+        public string ? Headline { get; set; }
 
         // Primary email (varchar(80) NOT NULL)
         [Required(ErrorMessage = "Primary email is required")]
         [StringLength(80)]
         [EmailAddress(ErrorMessage = "Invalid email format")]
-        public string EmailPrimary { get; set; }
+        public string ? EmailPrimary { get; set; }
 
         // Secondary email (varchar(80) NOT NULL)
         [Required(ErrorMessage = "Secondary email is required")]
         [StringLength(80)]
         [EmailAddress(ErrorMessage = "Invalid email format")]
-        public string EmailSecondary { get; set; }
+        public string ? EmailSecondary { get; set; }
 
         // Label for primary email (varchar(20) NOT NULL)
         [Required(ErrorMessage = "Primary email label is required")]
         [StringLength(20)]
-        public string EmailPrimaryLabel { get; set; }
+        public string ? EmailPrimaryLabel { get; set; }
 
         // Label for secondary email (varchar(20) NOT NULL)
         [Required(ErrorMessage = "Secondary email label is required")]
         [StringLength(20)]
-        public string EmailSecondaryLabel { get; set; }
+        public string ? EmailSecondaryLabel { get; set; }
 
         // Primary phone (varchar(10) NOT NULL)
         [Required(ErrorMessage = "Primary phone number is required")]
         [StringLength(10)]
         [Phone(ErrorMessage = "Invalid phone number format")]
-        public string PhonePrimary { get; set; }
+        public string ? PhonePrimary { get; set; }
 
         // Secondary phone (varchar(10) NOT NULL)
         [Required(ErrorMessage = "Secondary phone number is required")]
         [StringLength(10)]
         [Phone(ErrorMessage = "Invalid phone number format")]
-        public string PhoneSecondary { get; set; }
+        public string ? PhoneSecondary { get; set; }
 
         // Label for primary phone (varchar(20) NOT NULL)
         [Required(ErrorMessage = "Primary phone label is required")]
         [StringLength(20)]
-        public string PhonePrimaryLabel { get; set; }
+        public string ? PhonePrimaryLabel { get; set; }
 
         // Label for secondary phone (varchar(20) NOT NULL)
         [Required(ErrorMessage = "Secondary phone label is required")]
         [StringLength(20)]
-        public string PhoneSecondaryLabel { get; set; }
+        public string ? PhoneSecondaryLabel { get; set; }
 
         // Country (varchar(3) NOT NULL)
         [Required(ErrorMessage = "Country is required")]
         [StringLength(3)]
-        public string Country { get; set; }
+        public string ? Country { get; set; }
 
         // State or province (varchar(2) NOT NULL)
         [Required(ErrorMessage = "State/Province is required")]
         [StringLength(2)]
-        public string StateProvince { get; set; }
+        public string ? StateProvince { get; set; }
 
         // City (varchar(40) NOT NULL)
         [Required(ErrorMessage = "City is required")]
         [StringLength(40)]
-        public string City { get; set; }
+        public string ? City { get; set; }
 
         // Postal code (varchar(10) NOT NULL)
         [Required(ErrorMessage = "Postal code is required")]
         [StringLength(10)]
-        public string Postal { get; set; }
+        public string ? Postal { get; set; }
 
         // Street (varchar(50) NOT NULL)
         [Required(ErrorMessage = "Street is required")]
         [StringLength(50)]
-        public string Street { get; set; }
+        public string ? Street { get; set; }
 
         // DoNot_Market flag (bit NOT NULL)
         [Required]

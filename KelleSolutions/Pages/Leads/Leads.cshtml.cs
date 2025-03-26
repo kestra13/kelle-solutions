@@ -1,37 +1,35 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Collections.Generic;
-using System.Linq;
 
-namespace KelleSolutions.Pages.Leads {
-    public class LeadsModel : PageModel {
-        public List<UserLeads> UserLeads { get; set; }
+namespace KelleSolutions.Pages.Leads
+{
+    public class LeadsModel : PageModel
+    {
+        public List<UserLeads> UserLeads {get;set;}
 
-        public void OnGet() {
-            // Sample data using the updated view model.
-            UserLeads = new List<UserLeads> {
-                new UserLeads {
+        public void OnGet()
+        {
+            // Static list of users for demonstration.
+            UserLeads = new List<UserLeads>
+            {
+                //place holder for now but have to update this later to retrieve all users from the same group
+                new UserLeads
+                { 
                     Id = 1,
-                    FullName = "Randall Watts",
-                    Phone = "1234567890",
-                    Email = "randall@watts.com",
-                    CreationDate = new DateOnly(2023, 1, 1)
+                    UserName = "Randall Watts",
                 },
-                new UserLeads {
+                new UserLeads
+                { 
                     Id = 2,
-                    FullName = "Luis Gallarzo",
-                    Phone = "9876543210",
-                    Email = "luis@gallarzo.com",
-                    CreationDate = new DateOnly(2023, 2, 2)
+                    UserName = "Luis Gallarzo",
                 }
             };
         }
     }
 
-    public class UserLeads {
+    public class UserLeads
+    {
         public int Id { get; set; }
-        public string FullName { get; set; }
-        public string Phone { get; set; }
-        public string Email { get; set; }
-        public DateOnly CreationDate { get; set; }
+        public string ? UserName {get;set;}
     }
 }

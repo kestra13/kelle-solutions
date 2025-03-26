@@ -35,10 +35,9 @@ namespace KelleSolutions.Models
         [MaxLength(100)]
         public required string Comments {get;set;}
 
-        [ForeignKey("PersonId")]
+        //Navigation to Foreign Keys
         public Person ? Person {get;set;}
 
-        [ForeignKey("Person2Id")]
         public Person ? Person2 {get; set;}
 
         

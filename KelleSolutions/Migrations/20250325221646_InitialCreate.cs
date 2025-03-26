@@ -98,10 +98,10 @@ namespace KelleSolutions.Migrations
                 name: "Leads",
                 columns: table => new
                 {
-                    Code = table.Column<long>(type: "bigint", nullable: false)
+                    Code = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Archived = table.Column<bool>(type: "bit", nullable: false),
-                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Created = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Updated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Operator = table.Column<short>(type: "smallint", nullable: false),
                     Originator = table.Column<short>(type: "smallint", nullable: false),
@@ -373,6 +373,37 @@ namespace KelleSolutions.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "PersonToAffiliations",
+                columns: table => new
+                {
+                    Code = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Deprecated = table.Column<bool>(type: "bit", nullable: false),
+                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Creator = table.Column<short>(type: "smallint", nullable: false),
+                    Person = table.Column<int>(type: "int", nullable: false),
+                    Affiliate = table.Column<int>(type: "int", nullable: false),
+                    Relation = table.Column<short>(type: "smallint", nullable: false),
+                    Comments = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PersonToAffiliations", x => x.Code);
+                    table.ForeignKey(
+                        name: "FK_PersonToAffiliations_Affiliates_Affiliate",
+                        column: x => x.Affiliate,
+                        principalTable: "Affiliates",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_PersonToAffiliations_Person_Person",
+                        column: x => x.Person,
+                        principalTable: "Person",
+                        principalColumn: "Code",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "PersonToEntity",
                 columns: table => new
                 {
@@ -397,6 +428,37 @@ namespace KelleSolutions.Migrations
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_PersonToEntity_Person_Person",
+                        column: x => x.Person,
+                        principalTable: "Person",
+                        principalColumn: "Code",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PersonToLeads",
+                columns: table => new
+                {
+                    Code = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Deprecated = table.Column<bool>(type: "bit", nullable: false),
+                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Creator = table.Column<short>(type: "smallint", nullable: false),
+                    Person = table.Column<int>(type: "int", nullable: false),
+                    Lead = table.Column<int>(type: "int", nullable: false),
+                    Relation = table.Column<short>(type: "smallint", nullable: false),
+                    Comments = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PersonToLeads", x => x.Code);
+                    table.ForeignKey(
+                        name: "FK_PersonToLeads_Leads_Lead",
+                        column: x => x.Lead,
+                        principalTable: "Leads",
+                        principalColumn: "Code",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_PersonToLeads_Person_Person",
                         column: x => x.Person,
                         principalTable: "Person",
                         principalColumn: "Code",
@@ -778,9 +840,9 @@ namespace KelleSolutions.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "792da7b1-5c69-4d77-ae0f-667f31444749", null, "Broker", "BROKER" },
-                    { "cf4cd97f-8687-4a7d-8c22-5499bf8aacd1", null, "Agent", "AGENT" },
-                    { "e9f24567-73c0-4173-8dc6-6c1720bfc6af", null, "Admin", "ADMIN" }
+                    { "825e22ab-17b8-40ca-ad29-2cfe36c6ee6d", null, "Agent", "AGENT" },
+                    { "8966c7de-78ce-4138-b008-c77516a1f4a7", null, "Admin", "ADMIN" },
+                    { "f5aee51e-7e93-4287-a80c-b32e21965659", null, "Broker", "BROKER" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -854,6 +916,16 @@ namespace KelleSolutions.Migrations
                 column: "PermissionID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_PersonToAffiliations_Affiliate",
+                table: "PersonToAffiliations",
+                column: "Affiliate");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PersonToAffiliations_Person",
+                table: "PersonToAffiliations",
+                column: "Person");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PersonToEntity_Entity",
                 table: "PersonToEntity",
                 column: "Entity");
@@ -861,6 +933,16 @@ namespace KelleSolutions.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_PersonToEntity_Person",
                 table: "PersonToEntity",
+                column: "Person");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PersonToLeads_Lead",
+                table: "PersonToLeads",
+                column: "Lead");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PersonToLeads_Person",
+                table: "PersonToLeads",
                 column: "Person");
 
             migrationBuilder.CreateIndex(
@@ -926,9 +1008,6 @@ namespace KelleSolutions.Migrations
                 name: "ActionEntities");
 
             migrationBuilder.DropTable(
-                name: "Affiliates");
-
-            migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
             migrationBuilder.DropTable(
@@ -947,10 +1026,13 @@ namespace KelleSolutions.Migrations
                 name: "Dashboards");
 
             migrationBuilder.DropTable(
-                name: "Leads");
+                name: "PersonToAffiliations");
 
             migrationBuilder.DropTable(
                 name: "PersonToEntity");
+
+            migrationBuilder.DropTable(
+                name: "PersonToLeads");
 
             migrationBuilder.DropTable(
                 name: "PersonToListing");
@@ -980,7 +1062,13 @@ namespace KelleSolutions.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
+                name: "Affiliates");
+
+            migrationBuilder.DropTable(
                 name: "Entities");
+
+            migrationBuilder.DropTable(
+                name: "Leads");
 
             migrationBuilder.DropTable(
                 name: "Listings");

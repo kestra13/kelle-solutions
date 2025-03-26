@@ -6,69 +6,114 @@
 <!--
     Updated CreateLead.cshtml to use the new Lead model fields.
 -->
-<h2>Create New Lead</h2>
+<style>
+    /* blur effect for background content when modal is open */
+    .modal-backdrop {
+        background-color: rgba(255, 255, 255, 0.2) !important; /* White opacity layer */
+        backdrop-filter: blur(8px); /* blur effect */
+    }
+    /* ensure modal opens in the center of the viewport */
+    .modal-dialog {
+        display: flex;
+        align-items: center;
+        min-height: 100vh;
+    }
+    /* styled submit button */
+    .submit-button {
+        background: #4a154b;
+        color: #ffffff;
+        font-weight: bold;
+        padding: 10px 20px;
+        border-radius: 4px;
+        border: none;
+        width: auto;
+        text-align: center;
+        display: block;
+        margin: 20px auto 0 auto;
+        transition: background 0.3s ease;
+    }
+    .submit-button:hover {
+        background: linear-gradient(90deg, #ecb22e, #e01e5a);
+    }
+</style>
 
-<form method="post">
-    <!-- First Name input field -->
-    <div class="form-group">
-        <label asp-for="Lead.NameFirst" class="control-label"></label>
-        <input asp-for="Lead.NameFirst" class="form-control" />
-        <span asp-validation-for="Lead.NameFirst" class="text-danger"></span>
+<div class="modal fade" id="AddPropertyModal" tabindex="-1" aria-labelledby="addPropertyModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-l modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addPropertyModalLabel">Add New Property</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="LeadsForm">
+                    <!-- First Name input field -->
+                    <div class="form-group">
+                        <label asp-for="Lead.NameFirst" class="control-label"></label>
+                        <input asp-for="Lead.NameFirst" class="form-control" />
+                        <span asp-validation-for="Lead.NameFirst" class="text-danger"></span>
+                    </div>
+
+                    <!-- Middle Name input field -->
+                    <div class="form-group">
+                        <label asp-for="Lead.NameMiddle" class="control-label"></label>
+                        <input asp-for="Lead.NameMiddle" class="form-control" />
+                        <span asp-validation-for="Lead.NameMiddle" class="text-danger"></span>
+                    </div>
+
+                    <!-- Last Name input field -->
+                    <div class="form-group">
+                        <label asp-for="Lead.NameLast" class="control-label"></label>
+                        <input asp-for="Lead.NameLast" class="form-control" />
+                        <span asp-validation-for="Lead.NameLast" class="text-danger"></span>
+                    </div>
+
+                    <!-- Email input field -->
+                    <div class="form-group">
+                        <label asp-for="Lead.Email" class="control-label"></label>
+                        <input asp-for="Lead.Email" type="email" class="form-control" />
+                        <span asp-validation-for="Lead.Email" class="text-danger"></span>
+                    </div>
+
+                    <!-- Phone input field -->
+                    <div class="form-group">
+                        <label asp-for="Lead.Phone" class="control-label"></label>
+                        <input asp-for="Lead.Phone" type="tel" class="form-control" />
+                        <span asp-validation-for="Lead.Phone" class="text-danger"></span>
+                    </div>
+
+                    <!-- Organization Name input field -->
+                    <div class="form-group">
+                        <label asp-for="Lead.OrganizationName" class="control-label"></label>
+                        <input asp-for="Lead.OrganizationName" class="form-control" />
+                        <span asp-validation-for="Lead.OrganizationName" class="text-danger"></span>
+                    </div>
+
+                    <!-- Organization Title input field -->
+                    <div class="form-group">
+                        <label asp-for="Lead.OrganizationTitle" class="control-label"></label>
+                        <input asp-for="Lead.OrganizationTitle" class="form-control" />
+                        <span asp-validation-for="Lead.OrganizationTitle" class="text-danger"></span>
+                    </div>
+
+                    <!-- Tracking input field -->
+                    <div class="form-group">
+                        <label asp-for="Lead.Tracking" class="control-label"></label>
+                        <input asp-for="Lead.Tracking" class="form-control" />
+                        <span asp-validation-for="Lead.Tracking" class="text-danger"></span>
+                    </div>
+
+                    <!-- Submit and Cancel Buttons -->
+                    <button type="submit" class="btn btn-primary">Create Lead</button>
+                    <a asp-page="/Leads/Index" class="btn btn-secondary">Cancel</a>
+
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="submit-button mt-3">Save</button>
+                </form>
+            </div>
+        </div>
     </div>
-
-    <!-- Middle Name input field -->
-    <div class="form-group">
-        <label asp-for="Lead.NameMiddle" class="control-label"></label>
-        <input asp-for="Lead.NameMiddle" class="form-control" />
-        <span asp-validation-for="Lead.NameMiddle" class="text-danger"></span>
-    </div>
-
-    <!-- Last Name input field -->
-    <div class="form-group">
-        <label asp-for="Lead.NameLast" class="control-label"></label>
-        <input asp-for="Lead.NameLast" class="form-control" />
-        <span asp-validation-for="Lead.NameLast" class="text-danger"></span>
-    </div>
-
-    <!-- Email input field -->
-    <div class="form-group">
-        <label asp-for="Lead.Email" class="control-label"></label>
-        <input asp-for="Lead.Email" type="email" class="form-control" />
-        <span asp-validation-for="Lead.Email" class="text-danger"></span>
-    </div>
-
-    <!-- Phone input field -->
-    <div class="form-group">
-        <label asp-for="Lead.Phone" class="control-label"></label>
-        <input asp-for="Lead.Phone" type="tel" class="form-control" />
-        <span asp-validation-for="Lead.Phone" class="text-danger"></span>
-    </div>
-
-    <!-- Organization Name input field -->
-    <div class="form-group">
-        <label asp-for="Lead.OrganizationName" class="control-label"></label>
-        <input asp-for="Lead.OrganizationName" class="form-control" />
-        <span asp-validation-for="Lead.OrganizationName" class="text-danger"></span>
-    </div>
-
-    <!-- Organization Title input field -->
-    <div class="form-group">
-        <label asp-for="Lead.OrganizationTitle" class="control-label"></label>
-        <input asp-for="Lead.OrganizationTitle" class="form-control" />
-        <span asp-validation-for="Lead.OrganizationTitle" class="text-danger"></span>
-    </div>
-
-    <!-- Tracking input field -->
-    <div class="form-group">
-        <label asp-for="Lead.Tracking" class="control-label"></label>
-        <input asp-for="Lead.Tracking" class="form-control" />
-        <span asp-validation-for="Lead.Tracking" class="text-danger"></span>
-    </div>
-
-    <!-- Submit and Cancel Buttons -->
-    <button type="submit" class="btn btn-primary">Create Lead</button>
-    <a asp-page="/Leads/Index" class="btn btn-secondary">Cancel</a>
-</form>
+</div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

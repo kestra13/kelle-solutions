@@ -36,10 +36,8 @@ namespace KelleSolutions.Models
         public required string Comments {get;set;}
 
         //navigation property for foreign keys
-        [ForeignKey("Person")]
         public Person ? People {get;set;}
 
-        [ForeignKey("Properties")]
         public Property ? Property {get;set;}
 
     }

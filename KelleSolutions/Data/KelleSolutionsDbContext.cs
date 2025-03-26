@@ -109,6 +109,33 @@ namespace KelleSolutions.Data
                 .HasForeignKey(p => p.Properties)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            //Configure PersonToAffiliation
+            builder.Entity<PersonToAffiliations>()
+                .HasOne(p => p.PersonNavigation)
+                .WithMany()
+                .HasForeignKey(p => p.Person)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<PersonToAffiliations>()
+                .HasOne(p => p.AffiliationNavigation)
+                .WithMany()
+                .HasForeignKey(p => p.Affiliate)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            //Configure PersonToLeads
+            builder.Entity<PersonToLeads>()
+                .HasOne(p => p.PersonNavigation)
+                .WithMany()
+                .HasForeignKey(p => p.Person)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<PersonToLeads>()
+                .HasOne(p => p.LeadNavigation)
+                .WithMany()
+                .HasForeignKey(p => p.Lead)
+                .OnDelete(DeleteBehavior.Restrict);
+
+
             // Configure PermissionGroup
             builder.Entity<PermissionGroup>()
                 .HasKey(pg => pg.PermissionGroupID);
@@ -215,6 +242,12 @@ namespace KelleSolutions.Data
 
         //DbSet for PersonToProperties
         public DbSet<PersonToProperties> PersonToProperties {get;set;}
+
+        //DbSet for PersonToEntities
+        public DbSet<PersonToAffiliations> PersonToAffiliations {get;set;}
+
+        //DbSet for PersonToLeads
+        public DbSet<PersonToLeads> PersonToLeads {get;set;}
 
         //DbSet for Actions
         public DbSet<ActionEntity> ActionEntities { get; set; }

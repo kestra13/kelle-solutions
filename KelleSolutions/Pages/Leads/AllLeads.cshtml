@@ -1,11 +1,7 @@
 @page
-@model KelleSolutions.Pages.Properties.AllPropertiesModel
-@{ ViewData["Title"] = "All Properties"; }
-<!--
-Date: 02/22/2025 
-Creating AllProperties.cshtml to reflect new and modified viewing table of the Properties Entities created by all users.
-Adding comments to better explain documentation.
--->
+@model KelleSolutions.Pages.Leads.AllLeadsModel
+@{ ViewData["Title"] = "All Leads"; }
+
 <div class="header-section">
     <p>
         <link rel="stylesheet" href="~/css/mainpages.css" />
@@ -16,16 +12,16 @@ Adding comments to better explain documentation.
             </svg>
         </a>
         <span>/</span> 
-        <a href="/Properties/Properties">Properties</a>
+        <a href="/Leads/Leads">Leads</a>
         <span>/</span> 
-        <span class="pagename-text">Properties</span>
+        <span class="pagename-text">All Leads</span>
     </p>
 </div>
 
 <div class="buttons">
     <div class="d-flex">
         <div class="dropdown me-2">
-            <label for="dropdownButton" class="button-label">Property type</label>
+            <label for="dropdownButton" class="button-label">Lead type</label>
             <button id="dropdownButton" class="btn btn-outline dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Select Options
             </button>
@@ -45,7 +41,7 @@ Adding comments to better explain documentation.
             </ul>
         </div>
         <div class="dropdown">
-            <label for="dropdownButton" class="button-label">Property status</label>
+            <label for="dropdownButton" class="button-label">Lead status</label>
             <button id="dropdownButton" class="btn btn-outline dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Select Options
             </button>
@@ -77,8 +73,8 @@ Adding comments to better explain documentation.
             </ul>
         </div>
     </div>
-            <!-- Add Property Button -->
-    <button class="gradient-button" data-bs-toggle="modal" data-bs-target="#AddPropertyModal">
+            <!-- Add Lead Button -->
+    <button class="gradient-button" data-bs-toggle="modal" data-bs-target="#AddLeadModal">
         Add
         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368">
             <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/>
@@ -117,91 +113,90 @@ Adding comments to better explain documentation.
         background: linear-gradient(90deg, #ecb22e, #e01e5a);
     }
 
-    /* Custom dropdown arrow styling */
-    .dropdown-arrow {
-        appearance: none;
-        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="black"><path d="M7 10l5 5 5-5z"/></svg>');
-        background-repeat: no-repeat;
-        background-position: right 10px center;
-        background-size: 12px;
-        padding-right: 30px; /* Space for the arrow */
+    .modal-title {
+        position:fixed
+        text-align:center;
     }
     
 </style>
 
-<div class="modal fade" id="AddPropertyModal" tabindex="-1" aria-labelledby="addPropertyModalLabel" aria-hidden="true">
+<div class="modal fade" id="AddLeadModal" tabindex="-1" aria-labelledby="addLeadModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-l modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addPropertyModalLabel">Add New Property</h5>
+                <h5 class="modal-title mt-3" d="addLeadModalLabel">Add New Lead</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="propertyForm">
-                    <!-- Street -->
-                    <div class="mb-3">
-                        <label for="propertyStreet" class="form-label">Street</label>
-                        <input type="text" class="form-control" id="propertyStreet" name="Street" required>
-                    </div>
-
-                    <!-- City, State, Postal -->
-                    <div class="row">
+                <form id="leadForm">
+                    <div class= "row">
+                        <!-- First Name input field -->
                         <div class="col-md-4">
-                            <label for="propertyCity" class="form-label">City</label>
-                            <input type="text" class="form-control" id="propertyCity" name="City" required>
+                            <div class="form-group">
+                                <label asp-for="Lead.NameFirst" class="control-label">First Name</label>
+                                <input asp-for="Lead.NameFirst" class="form-control" />
+                                <span asp-validation-for="Lead.NameFirst" class="text-danger"></span>
+                            </div>
                         </div>
                         <div class="col-md-4">
-                            <label for="propertyStateProvince" class="form-label">State/Province</label>
-                            <input type="text" class="form-control" id="propertyStateProvince" name="StateProvince" required>
+                            <!-- Middle Name input field -->
+                            <div class="form-group">
+                                <label asp-for="Lead.NameMiddle" class="control-label">Middle Name</label>
+                                <input asp-for="Lead.NameMiddle" class="form-control" />
+                                <span asp-validation-for="Lead.NameMiddle" class="text-danger"></span>
+                            </div>
                         </div>
                         <div class="col-md-4">
-                            <label for="propertyPostal" class="form-label">Postal Code</label>
-                            <input type="text" class="form-control" id="propertyPostal" name="Postal" required>
-                        </div>
-                    </div>
-
-                    <!-- Beds, Baths, Garages -->
-                    <div class="row mt-3">
-                        <div class="col-md-4">
-                            <label for="bedCount" class="form-label">Bedrooms</label>
-                            <input type="number" class="form-control" id="bedCount" name="Beds" min="0" required>
-                        </div>
-                        <div class="col-md-4">
-                            <label for="bathCount" class="form-label">Bathrooms</label>
-                            <input type="number" class="form-control" id="bathCount" name="Baths" min="0" required>
-                        </div>
-                        <div class="col-md-4">
-                            <label for="garageCount" class="form-label">Garages</label>
-                            <input type="number" class="form-control" id="garageCount" name="Garages" min="0" required>
+                            <!-- Last Name input field -->
+                            <div class="form-group">
+                                <label asp-for="Lead.NameLast" class="control-label">Last Name</label>
+                                <input asp-for="Lead.NameLast" class="form-control" />
+                                <span asp-validation-for="Lead.NameLast" class="text-danger"></span>
+                            </div>
                         </div>
                     </div>
-
-                    <!-- Year Constructed and Property Type -->
-                    <div class="row mt-3">
+                    <div class= "row">
                         <div class="col-md-6">
-                            <label for="yearConstructed" class="form-label">Year Constructed</label>
-                            <input type="number" class="form-control" id="yearConstructed" name="Constructed" min="1800" max="@DateTime.UtcNow.Year" required>
+                            <!-- Email input field -->
+                            <div class="form-group">
+                                <label asp-for="Lead.Email" class="control-label">Email</label>
+                                <input asp-for="Lead.Email" type="email" class="form-control" />
+                                <span asp-validation-for="Lead.Email" class="text-danger"></span>
+                            </div>
                         </div>
                         <div class="col-md-6">
-                            <label for="propertyType" class="form-label">Property Type</label>
-                            <select class="form-control dropdown-arrow" id="propertyType" name="MyType" required>
-                                <option value="">Select Property Type</option>
-                                <option value="0">Single Family Home</option>
-                                <option value="1">Multi Family Home</option>
-                                <option value="2">Condominium</option>
-                                <option value="3">Townhouse</option>
-                                <option value="4">Apartment</option>
-                                <option value="5">Office Building</option>
-                                <option value="6">Retail Store</option>
-                                <option value="7">Warehouse</option>
-                                <option value="8">Vacant Land</option>
-                                <option value="9">Other</option>
-                            </select>
+                            <!-- Phone input field -->
+                            <div class="form-group">
+                                <label asp-for="Lead.Phone" class="control-label">Phone</label>
+                                <input asp-for="Lead.Phone" type="tel" class="form-control" />
+                                <span asp-validation-for="Lead.Phone" class="text-danger"></span>
+                            </div>
                         </div>
                     </div>
+                    <!-- Organization Name input field -->
+                    <div class="form-group">
+                        <label asp-for="Lead.OrganizationName" class="control-label">Organization Name</label>
+                        <input asp-for="Lead.OrganizationName" class="form-control" />
+                        <span asp-validation-for="Lead.OrganizationName" class="text-danger"></span>
+                    </div>
 
-                    <!-- Submit Button -->
-                    <button type="submit" class="submit-button mt-3">Save</button>
+                    <!-- Organization Title input field -->
+                    <div class="form-group">
+                        <label asp-for="Lead.OrganizationTitle" class="control-label">Organization Title</label>
+                        <input asp-for="Lead.OrganizationTitle" class="form-control" />
+                        <span asp-validation-for="Lead.OrganizationTitle" class="text-danger"></span>
+                    </div>
+
+                    <!-- Tracking input field -->
+                    <div class="form-group">
+                        <label asp-for="Lead.Tracking" class="control-label"></label>
+                        <input asp-for="Lead.Tracking" class="form-control" />
+                        <span asp-validation-for="Lead.Tracking" class="text-danger"></span>
+                    </div>
+
+                    <!-- Submit and Cancel Buttons -->
+                    <button type="submit" class="submit-button mt-3">Create Lead</button>
+                    <!--<a asp-page="/Leads/Index" class="btn btn-secondary">Cancel</a>-->
                 </form>
             </div>
         </div>
@@ -214,23 +209,22 @@ Adding comments to better explain documentation.
     <table class="table">
         <thead>
             <tr>
-                <th>ID</th>
+                <th>#</th>
+                <th>Name</th>
+                <th>Phone Number</th>
+                <th>Email</th>
                 <th>Created</th>
-                <th>City</th>
-                <th>Zip</th>
-                <th>Street</th>
-                <th>Bed / Bath </th>
+                <th>Action </th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var property in Model.AllProperties) {
+            @foreach (var lead in Model.AllLeads) {
                 <tr>
-                    <td>@property.Code</td>
-                    <td>@(property.Created.HasValue ? property.Created.Value.ToString("yyyy") : "N/A")</td>
-                    <td>@property.City</td>
-                    <td>@property.Postal</td>
-                    <td>@property.Street</td>
-                    <td>@property.Beds / @property.Baths</td>
+                    <td>@lead.Code</td>
+                    <td>@(lead.Created.HasValue ? lead.Created.Value.ToString("yyyy") : "N/A")</td>
+                    <td>@lead.City</td>
+                    <td>@lead.Postal</td>
+                    <td>@lead.Street</td>
                 </tr>
             }
         </tbody>
@@ -260,8 +254,8 @@ Adding comments to better explain documentation.
         <div class="page-desc">
             <span>
                 @( (Model.PageNumber - 1) * Model.PageSize + 1) - 
-                @(System.Math.Min(Model.PageNumber * Model.PageSize, Model.AllProperties.Count))
-                of @Model.AllProperties.Count
+                @(System.Math.Min(Model.PageNumber * Model.PageSize, Model.AllLeads.Count))
+                of @Model.AllLeads.Count
             </span>
         </div>
 
