@@ -1,6 +1,6 @@
 @page
 @model KelleSolutions.Pages.Listings.MyListingsModel
-@{ ViewData["Title"] = "User Listings"; }
+@{ ViewData["Title"] = "My Listings"; }
 <!--
 Date: 02/23/2025 
 Updating MyListings.cshtml to reflect new and modified viewing table of the Listings Entities created by signed-in user.
@@ -60,6 +60,16 @@ Adding comments to better explain documentation.
          border-top-color: black !important;
      }
 
+    .id-link {
+        color: #4a154b;
+        text-decoration: none;
+        font-weight: 500;
+    }
+    
+    .id-link:hover {
+        text-decoration: underline;
+        color: #e01e5a;
+    }
 </style>
 <div class="nav-bar-icons">
     <div class="button-container d-flex align-items-center" style="gap: 12px;">
@@ -112,6 +122,7 @@ Adding comments to better explain documentation.
         </ul>
     </div>
 </div>
+
 <div class="header-section">
     <p>
         <a href="/AT_Dashboard">
@@ -128,66 +139,66 @@ Adding comments to better explain documentation.
 <div class="buttons">
     <div class="d-flex">
         <div class="dropdown me-2">
-            <label for="dropdownButton" class="button-label">Listing source</label>
-            <button id="dropdownButton" class="btn btn-outline dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <label for="sourceDropdown" class="button-label">Listing source</label>
+            <button id="sourceDropdown" class="btn btn-outline dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Select Options
             </button>
             <ul class="dropdown-menu p-2">
                 <li>
-                    <input class="form-check-input me-2 option-checkbox" type="checkbox" id="option1">
-                    <label class="form-check-label" for="option1">Option 1</label>
+                    <input class="form-check-input me-2 option-checkbox source-filter" type="checkbox" id="sourceOption1" value="Option1">
+                    <label class="form-check-label" for="sourceOption1">Option 1</label>
                 </li>
                 <li>
-                    <input class="form-check-input me-2 option-checkbox" type="checkbox" id="option2">
-                    <label class="form-check-label" for="option2">Option 2</label>
+                    <input class="form-check-input me-2 option-checkbox source-filter" type="checkbox" id="sourceOption2" value="Option2">
+                    <label class="form-check-label" for="sourceOption2">Option 2</label>
                 </li>
                 <li>
-                    <input class="form-check-input me-2 option-checkbox" type="checkbox" id="option3">
-                    <label class="form-check-label" for="option3">Option 3</label>
+                    <input class="form-check-input me-2 option-checkbox source-filter" type="checkbox" id="sourceOption3" value="Option3">
+                    <label class="form-check-label" for="sourceOption3">Option 3</label>
                 </li>
             </ul>
         </div>
         <div class="dropdown">
-            <label for="dropdownButton" class="button-label">Listing status</label>
-            <button id="dropdownButton" class="btn btn-outline dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <label for="statusDropdown" class="button-label">Listing status</label>
+            <button id="statusDropdown" class="btn btn-outline dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Select Options
             </button>
             <ul class="dropdown-menu p-2">
                 <li>
-                    <input class="form-check-input me-2 option-checkbox" type="checkbox" id="option1">
-                    <label class="form-check-label" for="option1">All</label>
+                    <input class="form-check-input me-2 option-checkbox status-filter" type="checkbox" id="statusAll" value="All">
+                    <label class="form-check-label" for="statusAll">All</label>
                 </li>
                 <li>
-                    <input class="form-check-input me-2 option-checkbox" type="checkbox" id="option2">
-                    <label class="form-check-label" for="option2">On Hold</label>
+                    <input class="form-check-input me-2 option-checkbox status-filter" type="checkbox" id="statusOnHold" value="OnHold">
+                    <label class="form-check-label" for="statusOnHold">On Hold</label>
                 </li>
                 <li>
-                    <input class="form-check-input me-2 option-checkbox" type="checkbox" id="option3">
-                    <label class="form-check-label" for="option3">Open House</label>
+                    <input class="form-check-input me-2 option-checkbox status-filter" type="checkbox" id="statusOpenHouse" value="OpenHouse">
+                    <label class="form-check-label" for="statusOpenHouse">Open House</label>
                 </li>
                 <li>
-                    <input class="form-check-input me-2 option-checkbox" type="checkbox" id="option4">
-                    <label class="form-check-label" for="option4">Active</label>
+                    <input class="form-check-input me-2 option-checkbox status-filter" type="checkbox" id="statusActive" value="Active">
+                    <label class="form-check-label" for="statusActive">Active</label>
                 </li>
                 <li>
-                    <input class="form-check-input me-2 option-checkbox" type="checkbox" id="option5">
-                    <label class="form-check-label" for="option5">Pending</label>
+                    <input class="form-check-input me-2 option-checkbox status-filter" type="checkbox" id="statusPending" value="Pending">
+                    <label class="form-check-label" for="statusPending">Pending</label>
                 </li>
                 <li>
-                    <input class="form-check-input me-2 option-checkbox" type="checkbox" id="option6">
-                    <label class="form-check-label" for="option6">Closed</label>
+                    <input class="form-check-input me-2 option-checkbox status-filter" type="checkbox" id="statusClosed" value="Closed">
+                    <label class="form-check-label" for="statusClosed">Closed</label>
                 </li>
                 <li>
-                    <input class="form-check-input me-2 option-checkbox" type="checkbox" id="option7">
-                    <label class="form-check-label" for="option7">Expired</label>
+                    <input class="form-check-input me-2 option-checkbox status-filter" type="checkbox" id="statusExpired" value="Expired">
+                    <label class="form-check-label" for="statusExpired">Expired</label>
                 </li>
                 <li>
-                    <input class="form-check-input me-2 option-checkbox" type="checkbox" id="option8">
-                    <label class="form-check-label" for="option8">Withdrawn</label>
+                    <input class="form-check-input me-2 option-checkbox status-filter" type="checkbox" id="statusWithdrawn" value="Withdrawn">
+                    <label class="form-check-label" for="statusWithdrawn">Withdrawn</label>
                 </li>
                 <li>
-                    <input class="form-check-input me-2 option-checkbox" type="checkbox" id="option9">
-                    <label class="form-check-label" for="option9">Canceled</label>
+                    <input class="form-check-input me-2 option-checkbox status-filter" type="checkbox" id="statusCanceled" value="Canceled">
+                    <label class="form-check-label" for="statusCanceled">Canceled</label>
                 </li>
             </ul>
         </div>
@@ -215,15 +226,17 @@ Adding comments to better explain documentation.
                 <th>Affiliation</th>
                 <th>Price</th>
                 <th>Address</th>
+                <th>Actions</th> <!-- New column -->
             </tr>
         </thead>
         <tbody>
             @foreach (var listing in Model.MyListings) {
-                <tr>
-                    <td>@listing.ListingID</td>
+                <tr data-listing-id="@listing.ListingID">
+                    <td><a href="/Listings/ViewListing?listingId=@listing.ListingID" class="id-link">@listing.ListingID</a></td>
                     <td>@listing.ListingDate.ToString("yyyy-MM-dd")</td>
                     <td>
                         <div class="btn-group">
+                            <!-- Status dropdown content (unchanged) -->
                             <button type="button" class="btn dropdown-outline status-btn">
                                 @listing.Status
                             </button>
@@ -242,16 +255,24 @@ Adding comments to better explain documentation.
                         </div>
                     </td>
                     <td>@listing.Affiliation</td>
-                    <!-- "C0" formats currency to 0 decimal places -->
                     <td>@listing.Price.ToString("C0")</td>
                     <td>@listing.Address</td>
+                    <td>
+                        <button type="button" class="btn btn-danger btn-sm delete-listing-btn" 
+                                data-listing-id="@listing.ListingID"
+                                data-bs-toggle="modal" 
+                                data-bs-target="#deleteListingModal">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                                <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                            </svg>
+                        </button>
+                    </td>
                 </tr>
             }
         </tbody>
     </table>
-</div>
-
-<div class="pagination-section">
+</div><div class="pagination-section">
     <div class="d-flex justify-content-between align-items-center">
         <div class="rows-per-page-container">
             <label for="pageSize" class="rowamount-label">Rows per page:</label>
@@ -298,7 +319,7 @@ Adding comments to better explain documentation.
         <div class="page-btn">
             @if (Model.PageNumber < Model.TotalPages) {
                 <a href="?PageNumber=@(Model.PageNumber + 1)&PageSize=@Model.PageSize">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368">
+                                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368">
                         <path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/>
                     </svg>
                 </a>
@@ -315,6 +336,27 @@ Adding comments to better explain documentation.
 </div>
 
 </body>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteListingModal" tabindex="-1" aria-labelledby="deleteListingModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteListingModalLabel">Delete Listing</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this listing?</p>
+                <p class="text-danger"><strong>This action cannot be undone.</strong></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 @section Scripts {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -427,7 +469,6 @@ Adding comments to better explain documentation.
                 });
             });
         });
-
     </script>
 
     <script>
@@ -442,9 +483,13 @@ Adding comments to better explain documentation.
                     this.closest(".btn-group").querySelector("button").innerText = newStatus;
 
                     // sends an AJAX request to update the status
-                    fetch(`/Listings/UpdateStatus`, {
+                    fetch(`/Listings/MyListings?handler=UpdateStatus`, {
                         method: "POST",
-                        headers: { "Content-Type": "application/json" },
+                        headers: { 
+                            "Content-Type": "application/json",
+                            "Accept": "application/json",
+                            "RequestVerificationToken": document.querySelector('input[name="__RequestVerificationToken"]').value
+                        },
                         body: JSON.stringify({ Id: listingId, Status: newStatus })
                     })
                     .then(response => response.json())
@@ -460,6 +505,7 @@ Adding comments to better explain documentation.
             });
         });
     </script>
+    
     <script>
         function menuIcon(img) {
             if(img.src.includes("/images/menu.svg")) {
@@ -469,4 +515,169 @@ Adding comments to better explain documentation.
             }
         }
     </script>
+    
+    <!-- Real-Time Status Filtering -->
+    <script>
+        // Status filtering
+        document.addEventListener("DOMContentLoaded", function() {
+            // Get all status checkboxes
+            const statusCheckboxes = document.querySelectorAll('.status-filter');
+            
+            // Add change event listener to each checkbox
+            statusCheckboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', filterListings);
+            });
+            
+            // Special handling for "All" checkbox
+            const allCheckbox = document.getElementById('statusAll');
+            if (allCheckbox) {
+                allCheckbox.addEventListener('change', function() {
+                    if (this.checked) {
+                        // If "All" is checked, uncheck other options
+                        statusCheckboxes.forEach(cb => {
+                            if (cb.id !== 'statusAll') {
+                                cb.checked = false;
+                            }
+                        });
+                    }
+                    filterListings();
+                });
+            }
+            
+            // Filter listings based on selected statuses
+            function filterListings() {
+                // Get all selected statuses
+                const selectedStatuses = [];
+                let allSelected = false;
+                
+                statusCheckboxes.forEach(checkbox => {
+                    if (checkbox.checked) {
+                        if (checkbox.value === 'All') {
+                            allSelected = true;
+                        } else {
+                            selectedStatuses.push(checkbox.value.replace(/([A-Z])/g, ' $1').trim()); // Convert camelCase to spaced words
+                        }
+                    }
+                });
+                
+                // Get all table rows except header
+                const rows = document.querySelectorAll('.table tbody tr');
+                
+                rows.forEach(row => {
+                    // Get the status cell (3rd column, index 2)
+                    const statusCell = row.querySelector('td:nth-child(3)');
+                    const statusText = statusCell ? 
+                        statusCell.querySelector('.status-btn')?.textContent.trim() : '';
+                    
+                    // Show/hide row based on filtering
+                    if (allSelected || selectedStatuses.length === 0) {
+                        // If "All" is selected or no filter is applied, show all rows
+                        row.style.display = '';
+                    } else {
+                        // Show row only if its status is in the selected statuses
+                        row.style.display = selectedStatuses.some(status => 
+                            statusText.includes(status)) ? '' : 'none';
+                    }
+                });
+                
+                // Update dropdown button text
+                updateFilterButtonText();
+            }
+            
+            function updateFilterButtonText() {
+                const dropdownButton = document.getElementById('statusDropdown');
+                if (!dropdownButton) return;
+                
+                const selectedCount = Array.from(statusCheckboxes)
+                    .filter(cb => cb.checked && cb.value !== 'All')
+                    .length;
+                    
+                if (document.getElementById('statusAll')?.checked) {
+                    dropdownButton.textContent = 'All';
+                } else if (selectedCount > 0) {
+                    dropdownButton.textContent = `${selectedCount} selected`;
+                } else {
+                    dropdownButton.textContent = 'Select Options';
+                }
+            }
+        });
+    </script>
+
+    <!-- Delete Listing Script -->
+<script>
+    // Handle listing deletion
+    document.addEventListener("DOMContentLoaded", function() {
+        let listingIdToDelete = null;
+        
+        // Store the listing ID when delete button is clicked
+        document.querySelectorAll('.delete-listing-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                listingIdToDelete = this.getAttribute('data-listing-id');
+                console.log("Preparing to delete listing ID:", listingIdToDelete);
+            });
+        });
+        
+// Handle the confirmation button click
+document.getElementById('confirmDeleteBtn').addEventListener('click', function() {
+    if (listingIdToDelete) {
+        fetch('/Listings/MyListings?handler=DeleteListing', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({ Id: parseInt(listingIdToDelete) })
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Try to close the modal, but don't worry if it fails
+            try {
+                const modalElement = document.getElementById('deleteListingModal');
+                const bsModal = bootstrap.Modal.getInstance(modalElement);
+                if (bsModal) bsModal.hide();
+            } catch (e) {
+                // Ignore any modal closing errors
+            }
+            
+            // Always show alert and reload
+            if (data && data.success) {
+                alert("Listing successfully deleted!");
+                window.location.reload();
+            } else {
+                alert("Error deleting listing: " + (data?.message || "Unknown error"));
+            }
+        })
+        .catch(error => {
+            // Even if there's an error, try to alert and reload
+            alert("Request completed. Refreshing page.");
+            window.location.reload();
+        });
+    }
+});
+
+        // Update pagination count after deletion
+        function updatePaginationCount() {
+            // Get the current count elements
+            const countElement = document.querySelector('.page-desc span');
+            if (!countElement) return;
+            
+            // Get all table rows (listings) that are currently displayed
+            const visibleRows = document.querySelectorAll('.table tbody tr:not([style*="display: none"])').length;
+            
+            // Parse the current text to update the numbers
+            const countText = countElement.textContent;
+            const match = countText.match(/(\d+)\s*-\s*(\d+)\s*of\s*(\d+)/);
+            
+            if (match && match.length === 4) {
+                const start = parseInt(match[1]);
+                const end = Math.min(parseInt(match[2]), visibleRows);
+                const total = parseInt(match[3]) - 1; // Reduce total by 1
+                
+                // Update text
+                countElement.textContent = `${start} - ${end} of ${total}`;
+            }
+        }
+    });
+</script>
+
 }

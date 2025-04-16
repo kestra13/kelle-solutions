@@ -141,7 +141,7 @@ Adding comments to better explain documentation.
         <tbody>
             @foreach (var listing in Model.AllListings) {
                 <tr>
-                    <td>@listing.ListingID</td>
+                    <td><a href="/Listings/ViewListing?listingId=@listing.ListingID" class="id-link">@listing.ListingID</a></td>
                     <td>@listing.Date.ToString("yyyy-MM-dd")</td>
                     <td>
                         <div class="btn-group">

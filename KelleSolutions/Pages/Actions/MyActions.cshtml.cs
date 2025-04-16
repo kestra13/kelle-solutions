@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using KelleSolutions.Data;
 using KelleSolutions.Models;
@@ -11,11 +12,14 @@ namespace KelleSolutions.Pages.Actions
     public class CreateActionModel : PageModel
     {
         private readonly KelleSolutionsDbContext _context;
+        private readonly UserManager<User> _userManager;
 
-        public CreateActionModel(KelleSolutionsDbContext context)
+        public CreateActionModel(KelleSolutionsDbContext context, UserManager<User> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
+        public string FirstName { get; set; }
 
         [BindProperty]
         public List<ActionEntity> ActionEntities { get; set; }
@@ -23,9 +27,37 @@ namespace KelleSolutions.Pages.Actions
         [BindProperty]
         public ActionEntity ActionEntity { get; set; }
 
+        [BindProperty(SupportsGet = true)]
+        public bool ShowImportant { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public bool ShowCompleted { get; set; }
+        
+        [BindProperty(SupportsGet = true)]
+        public bool SortAscending { get; set; }
+
         public async Task OnGetAsync()
         {
-            ActionEntities = await _context.ActionEntities.ToListAsync();
+            var currentUser = await _userManager.GetUserAsync(User);
+            FirstName = currentUser?.FirstName ?? "User";
+
+            var query = _context.ActionEntities.AsQueryable();
+            
+            if (ShowImportant)
+            {
+                query = query.Where(a => a.Important);
+            }
+
+            if (!ShowCompleted)
+            {
+                query = query.Where(a => !a.Completed);
+            }
+
+            query = SortAscending 
+                ? query.OrderBy(a => a.Due) 
+                : query.OrderByDescending(a => a.Due);
+            
+            ActionEntities = await query.ToListAsync();
         }
 
         public async Task<IActionResult> OnPostAsync()
@@ -45,6 +77,20 @@ namespace KelleSolutions.Pages.Actions
 
             Console.WriteLine("Form successfully saved to database.");
             return RedirectToPage("./MyActions");
+        }
+
+        public async Task<IActionResult> OnPostCompleteAsync(int actionId, bool? isCompleted)
+        {
+            var action = await _context.ActionEntities.FindAsync(actionId);
+            if (action == null)
+            {
+                return NotFound();
+            }
+
+            action.Completed = isCompleted ?? false;
+            await _context.SaveChangesAsync();
+
+            return RedirectToPage(); // reloads the current page
         }
     }
 }

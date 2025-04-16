@@ -34,6 +34,8 @@ namespace KelleSolutions.Models {
         public bool Important { get; set; }
 
         public string? Comments { get; set; }
+
+        public bool Completed { get; set; } = false;
     }
 }
 

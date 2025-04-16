@@ -381,3 +381,8 @@ body {
 .create-action {
     min-width: 496px;
 }
+
+.completed {
+    text-decoration: line-through;
+    color: gray;
+}

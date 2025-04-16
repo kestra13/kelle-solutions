@@ -272,6 +272,46 @@ public async Task<JsonResult> OnPostCreateListingAsync()
     }
 }
 
+public async Task<JsonResult> OnPostDeleteListingAsync([FromBody] DeleteListingModel request)
+{
+    // Find the listing
+    var listing = await _context.Listings.FindAsync(request.Id);
+    if (listing == null)
+    {
+        return new JsonResult(new { success = false, message = "Listing not found" });
+    }
+
+    try
+    {
+        // First remove any PersonToListing relations to prevent foreign key constraint errors
+        var personToListings = await _context.PersonToListing
+            .Where(ptl => ptl.ListingId == request.Id)
+            .ToListAsync();
+            
+        if (personToListings.Any())
+        {
+            _context.PersonToListing.RemoveRange(personToListings);
+        }
+        
+        // Remove the listing itself
+        _context.Listings.Remove(listing);
+        await _context.SaveChangesAsync();
+        
+        return new JsonResult(new { success = true });
+    }
+    catch (Exception ex)
+    {
+        return new JsonResult(new { success = false, message = $"Error deleting listing: {ex.Message}" });
+    }
+}
+
+// Data transfer class for delete request
+public class DeleteListingModel
+{
+    public int Id { get; set; }
+}
+
+
         public class CreateListingInputModel
         {
             public string PropertyId { get; set; }

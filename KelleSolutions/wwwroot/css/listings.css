@@ -99,3 +99,16 @@
 .page-item:not(:last-child) .page-link {
     margin-right: 0;
 }
+
+/* ID links styling for listings pages */
+
+.id-link {
+    color: #4a154b;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.id-link:hover {
+    text-decoration: underline;
+    color: #e01e5a;
+}

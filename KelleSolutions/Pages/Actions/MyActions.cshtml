@@ -145,28 +145,37 @@
                         <span class="button-text">Relation</span>
                     </button>
                     <div>
-                        <div class="checkbox-container">
-                            <div class="checkbox-group">
-                                <div class="checkbox-filter">
-                                    <input id="due" type="checkbox">
-                                    <label for="due">Due</label>
+                        <form method="get" id="filterSortForm">
+                            <div class="checkbox-container">
+                                <div class="checkbox-group">
+                                    <div class="checkbox-filter">
+                                        <input type="checkbox" asp-for="ShowImportant" onchange="this.form.submit()" />
+                                        <label asp-for="ShowImportant">Important</label>
+                                    </div>
+                                    <div class="checkbox-filter">
+                                        <input type="checkbox" asp-for="ShowCompleted" onchange="this.form.submit()" />
+                                        <label asp-for="ShowCompleted">Completed</label>
+                                    </div>
                                 </div>
-                                <div class="checkbox-filter">
-                                    <input id="important" type="checkbox">
-                                    <label for="important">Important</label>
+                                <div>
+                                    <input type="hidden" name="SortAscending" id="SortAscending" value="@(Model.SortAscending.ToString().ToLower())" />
+
+                                    <div class="date-sort" title="Toggle Sort Order" onclick="toggleSVG(this)">
+                                        <span>Due Date</span>
+                                        <svg class="sort-icon" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368" data-state="@(Model.SortAscending ? "up" : "down")">
+                                            @if (Model.SortAscending)
+                                            {
+                                                <path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z" />
+                                            }
+                                            else
+                                            {
+                                                <path d="M440-160v-487L216-423l-56-57 320-320 320 320-56 57-224-224v487h-80Z" />
+                                            }
+                                        </svg>
+                                    </div>
                                 </div>
-                                <div class="checkbox-filter">
-                                    <input id="completed" type="checkbox">
-                                    <label for="completed">Completed</label>
-                                </div>
-                            </div>
-                            <div class="date-sort" onclick="toggleSVG(this)">
-                                <span>Due Date</span>
-                                <svg class="sort-icon" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368" data-state="up">
-                                    <path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z"/>
-                                </svg>
-                            </div>
-                        </div>
+                            </div>                            
+                        </form>
                     </div>
                 </div>
             </div>
@@ -174,32 +183,44 @@
                 <div class="widget-content">
                     @foreach (var action in Model.ActionEntities)
                     {
-                        <div class="checkbox-filter">
-                            <input type="checkbox">
-                            <div class="action-item">
-                                <div class="graphics-container">
-                                    <div class="graphics">
-                                        <div class="icon-circle">
-                                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368">
-                                                <path d="M172.31-180Q142-180 121-201q-21-21-21-51.31v-455.38Q100-738 121-759q21-21 51.31-21h615.38Q818-780 839-759q21 21 21 51.31v455.38Q860-222 839-201q-21 21-51.31 21H172.31ZM480-457.69 160-662.31v410q0 5.39 3.46 8.85t8.85 3.46h615.38q5.39 0 8.85-3.46t3.46-8.85v-410L480-457.69Zm0-62.31 313.85-200h-627.7L480-520ZM160-662.31V-720v467.69q0 5.39 3.46 8.85t8.85 3.46H160v-422.31Z"/>
-                                            </svg>
+                        <form method="post" asp-page-handler="Complete">
+                            <div class="checkbox-filter">
+                                <input type="hidden" name="actionId" value="@action.ActionID" />
+                                <input type="checkbox" name="isCompleted" value="true" onchange="this.form.submit()" @(action.Completed ? "checked" : "") />
+                                <div class="action-item">
+                                    <div class="graphics-container">
+                                        <div class="graphics">
+                                            <div class="icon-circle">
+                                                @if (action.Category == "Email")
+                                                {
+                                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368">
+                                                        <path d="M172.31-180Q142-180 121-201q-21-21-21-51.31v-455.38Q100-738 121-759q21-21 51.31-21h615.38Q818-780 839-759q21 21 21 51.31v455.38Q860-222 839-201q-21 21-51.31 21H172.31ZM480-457.69 160-662.31v410q0 5.39 3.46 8.85t8.85 3.46h615.38q5.39 0 8.85-3.46t3.46-8.85v-410L480-457.69Zm0-62.31 313.85-200h-627.7L480-520ZM160-662.31V-720v467.69q0 5.39 3.46 8.85t8.85 3.46H160v-422.31Z"/>
+                                                    </svg>
+                                                }
+                                                else
+                                                {
+                                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368">
+                                                        <path d="M327.69-453.85h304.62v-60H327.69v60Zm0 115.39h304.62v-60H327.69v60Zm0 115.38h184.62v-60H327.69v60ZM252.31-100Q222-100 201-121q-21-21-21-51.31v-615.38Q180-818 201-839q21-21 51.31-21H570l210 210v477.69Q780-142 759-121q-21 21-51.31 21H252.31ZM540-620v-180H252.31q-4.62 0-8.46 3.85-3.85 3.84-3.85 8.46v615.38q0 4.62 3.85 8.46 3.84 3.85 8.46 3.85h455.38q4.62 0 8.46-3.85 3.85-3.84 3.85-8.46V-620H540ZM240-800v180-180V-160v-640Z"/>
+                                                    </svg>
+                                                }
+                                            </div>
+                                            <div class="icon-container">
+                                                <div class="connector"></div>
+                                            </div>
                                         </div>
-                                        <div class="icon-container">
-                                            <div class="connector"></div>
-                                        </div>
+                                        <div class="horizontal-connector"></div>
                                     </div>
-                                    <div class="horizontal-connector"></div>
-                                </div>
-                                <div class="action-content">
-                                    <div class="action-title">@action.Title</div>
-                                    <div class="action-details">
-                                        <span class="name">@action.Operator</span>
-                                        to @action.Category by <span class="date">@action.Due.ToShortDateString()</span>
-                                        <a href="#" class="details-link">(Details)</a>
+                                    <div class="action-content">
+                                        <div class="action-title @(action.Completed ? "completed" : "")">@action.Title</div>
+                                        <div class="action-details">
+                                            <span class="name">@Model.FirstName</span>
+                                            to @action.Category by <span class="date">@action.Due.ToShortDateString()</span>
+                                            <a href="#" class="details-link">(Details)</a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </form>
                     }
                 </div>
             </div>
@@ -227,7 +248,6 @@
                             </button>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item status-option" href="#" data-value="Me">Me</a></li>
-                                <li><a class="dropdown-item status-option" href="#" data-value="John Smith">John Smith</a></li>
                             </ul>
                         </div>
                         
@@ -246,7 +266,7 @@
 
                         <!--Visibilty-->
                         <div class="dropdown">
-                            <label asp-for="ActionEntity.Visibility" class="button-label">Visibilty</label>
+                            <label asp-for="ActionEntity.Visibility" class="button-label">Visibility</label>
                             <button class="btn btn-outline dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <span class="button-text">Select Visibility</span>
                             </button>
@@ -315,7 +335,7 @@
                     <!-- Important Checkbox -->
                     <div class="dropdown-container">
                         <div class="important-checkbox">
-                            <input id="importantCheckbox" type="checkbox">
+                            <input asp-for="ActionEntity.Important" type="checkbox" id="importantCheckbox">
                             <label for="importantCheckbox">Important</label>
                         </div>
                         <div>
@@ -358,19 +378,22 @@
 
         function toggleSVG(element) {
             let svg = element.querySelector(".sort-icon");
-
-            // Define both SVGs as strings
+    
             const upArrow = `<path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z"/>`;
             const downArrow = `<path d="M440-160v-487L216-423l-56-57 320-320 320 320-56 57-224-224v487h-80Z"/>`;
-
-            // Swap the SVG path
+    
             if (svg.dataset.state === "up") {
                 svg.innerHTML = downArrow;
-                svg.dataset.state = "down"; // Update state
+                svg.dataset.state = "down";
+                document.getElementById("SortAscending").value = "false";
             } else {
                 svg.innerHTML = upArrow;
-                svg.dataset.state = "up"; // Update state
+                svg.dataset.state = "up";
+                document.getElementById("SortAscending").value = "true";
             }
+    
+            // Submit the shared form
+            document.getElementById("filterSortForm").submit();
         }
     </script>
     <script>
