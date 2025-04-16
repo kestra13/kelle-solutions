@@ -5,18 +5,23 @@
     ViewData["Title"] = Model.RoleName + " Users";
 }
 
-<link rel="stylesheet" href="~/css/roles.css" />
+<link rel="stylesheet" href="~/css/mainpages.css" />
 
 <div class="header-section">
     <h3>Roles > Users > @Model.RoleName</h3>
-    <!-- Button to add a new row 
-    <button type="submit" formaction="?handler=AddNew" class="btn btn-primary btn-sm" style="margin-left: 20px;">
-        Add New
-    </button>
-    -->
-    <a href="#" class="add-new-btn" data-toggle="modal" data-target="#createRoleUsersModal">Add New</a>
 </div>
 
+<body>
+    <!-- Add Roles Button -->
+    <div class="buttons">
+        <button class="gradient-button" data-bs-toggle="modal" data-bs-target="#createRoleUsersModal">
+            Add
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368">
+                <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/>
+            </svg>
+        </button>
+    </div>
+</body>
 <div class="roles-container">
         <table class="table">
             <thead>
@@ -87,7 +92,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="createRoleUsersModalLabel">Add New @Model.RoleName User</h5>
+                <h5 class="modal-title" id="createRoleUsersModalLabel">Add @Model.RoleName User</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
