@@ -20,14 +20,12 @@ namespace KelleSolutions.Models {
         public bool Archived { get; set; }
 
         // Timestamp when the lead was created (datetime2 NOT NULL)
-        [Required]
-      //[Column(TypeName = "datetime2")]
-        public DateTime? Created{ get; set; }
+        [Column(TypeName = "datetime2")]
+        public DateTime ? Created{ get; set; }
 
         // Timestamp when the lead was last updated (datetime2 NOT NULL)
-        [Required]
         [Column(TypeName = "datetime2")]
-        public DateTime Updated { get; set; }
+        public DateTime ? Updated { get; set; }
 
         // Operator field (smallint NOT NULL)
         [Required]

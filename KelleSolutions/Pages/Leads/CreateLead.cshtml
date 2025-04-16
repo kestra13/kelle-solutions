@@ -73,6 +73,22 @@
         }
     </style>
 </head>
+
+@if (!ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        <ul>
+            @foreach (var modelState in ModelState.Values)
+            {
+                foreach (var error in modelState.Errors)
+                {
+                    <li>@error.ErrorMessage</li>
+                }
+            }
+        </ul>
+    </div>
+}
+
 <body>
     
     <div class="content-container">
@@ -152,3 +168,21 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
 </body>
 </html>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var cancelButton = document.querySelector(".btn-outline-secondary");
+            if (cancelButton) {
+                cancelButton.addEventListener("click", function (event) {
+                    if (document.querySelector("form").checkValidity()) {
+                        if (!confirm("Are you sure you want to cancel? Unsaved changes will be lost.")) {
+                            event.preventDefault();
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+}

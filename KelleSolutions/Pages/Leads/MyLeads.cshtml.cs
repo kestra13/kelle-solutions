@@ -39,6 +39,7 @@ namespace KelleSolutions.Pages.Leads
                 {
                     // Assuming that l.Code is your unique identifier (cast to int if necessary)
                     ID = (int)l.Code,
+                    CreationDate = l.Created.HasValue ? DateOnly.FromDateTime(l.Created.Value) : DateOnly.MinValue,
                     // You can display a full name by concatenating first, middle (if any), and last names.
                     FullName = l.NameFirst + " " + (string.IsNullOrWhiteSpace(l.NameMiddle) ? "" : l.NameMiddle + " ") + l.NameLast,
                     Phone = l.Phone,

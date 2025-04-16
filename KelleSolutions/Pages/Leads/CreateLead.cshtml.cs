@@ -4,19 +4,21 @@ using KelleSolutions.Models;
 using KelleSolutions.Data;
 using System.Threading.Tasks;
 using System;
+using Microsoft.AspNetCore.Identity;
 
 namespace KelleSolutions.Pages.Leads
 {
     public class CreateLeadModel : PageModel
     {
         private readonly KelleSolutionsDbContext _context;
+        private readonly UserManager<User> _userManager;
 
-        public CreateLeadModel(KelleSolutionsDbContext context)
+        public CreateLeadModel(KelleSolutionsDbContext context, UserManager<User> userManager)
         {
             _context = context;
-            // Initialize a new Lead with default (empty) values.
-            Lead = new Lead
-            {
+            _userManager = userManager;
+            // Initialize a new Lead instance using the updated properties.
+            Lead = new Lead {
                 NameFirst = string.Empty,
                 NameMiddle = string.Empty,
                 NameLast = string.Empty,
@@ -29,20 +31,7 @@ namespace KelleSolutions.Pages.Leads
                 Street = string.Empty,
                 OrganizationName = string.Empty,
                 OrganizationTitle = string.Empty,
-                Tracking = string.Empty,
-                // Set default values for required booleans.
-                Archived = false,
-                StageWorked = false,
-                TempWarm = false,
-                DoNotMarket = false,
-                DoNotContact = false,
-                // Set default enum values.
-                Operator = OperatorEnum.Operator1,
-                Originator = OriginatorEnum.Originator1,
-                Team = TeamEnum.TeamA,
-                Visibility = VisibilityEnum.Low,
-                OriginatorFeeRate = 0,
-                OriginatorFeeFixed = 0
+                Tracking = string.Empty
             };
         }
 
@@ -56,14 +45,37 @@ namespace KelleSolutions.Pages.Leads
 
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
             try
             {
-                Lead.Created = DateTime.Now;
-                Lead.Updated = DateTime.Now;
+                if (!ModelState.IsValid)
+                {
+                    foreach(var state in ModelState)
+                    {
+                        foreach(var error in state.Value.Errors) {
+                            Console.WriteLine($"Error in {state.Key}: {error.ErrorMessage}");
+                            ModelState.AddModelError("", $"Error in {state.Key}: {error.ErrorMessage}");
+                        }
+                    }
+                    return Page();
+                }
+                var currentUser = await _userManager.GetUserAsync(User);
+                // Add debugging line here to check TenantID
+                Console.WriteLine($"Current user TenantID: {currentUser?.TenantID}");
+
+                var userRoles = await _userManager.GetRolesAsync(currentUser);
+                string userRole = userRoles.FirstOrDefault();
+
+                //set default values for required leads not provided by the form
+                Lead.Archived = false;
+                Lead.Operator = 0;
+                Lead.Originator = 0;
+                Lead.Team = 0;
+                Lead.Visibility = 0;
+                Lead.StageWorked = false;
+                Lead.TempWarm = false;
+                Lead.Created = DateTime.UtcNow;
+                Lead.Updated = DateTime.UtcNow;
+
                 _context.Leads.Add(Lead);
                 await _context.SaveChangesAsync();
                 // Redirect back to the MyLeads page so the new lead is visible.
@@ -71,8 +83,7 @@ namespace KelleSolutions.Pages.Leads
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError("", "An error occurred while saving the lead. Please try again.");
-                Console.WriteLine($"Error: {ex.Message}");
+                ModelState.AddModelError("", $"Error saving Lead: {ex.Message}");
                 return Page();
             }
         }

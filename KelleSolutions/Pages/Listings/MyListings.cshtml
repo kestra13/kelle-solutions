@@ -56,26 +56,52 @@ Adding comments to better explain documentation.
         color: #585858;
     }
 
+    .dropdown-toggle::after {
+         border-top-color: black !important;
+     }
+
 </style>
 <div class="nav-bar-icons">
-    <div class="button-container">
+    <div class="button-container d-flex align-items-center" style="gap: 12px;">
         <a href="/Admin/adminDashboard" class="btn btn-gray rounded-pill">
             <img src="~/images/dashboard_logo_selected.svg" alt="" class="btn-icon">
             <span class="btn-text">Dashboard</span>
         </a>
-        <a href="/Listings/MyListings" class="btn btn-purple-active rounded-pill">
-            <img src="~/images/selected_listings.svg" alt="" class="btn-icon">
-            <span class="btn-text">Listings</span>
-        </a>
+        <!-- LISTINGS Dropdown -->
+        <div class="dropdown d-inline-block" >
+            <button class="btn btn-primary btn-purple-active rounded-pill dropdown-toggle d-flex align-items-center"
+                    type="button"
+                    id="listingsDropdown"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                <img src="~/images/selected_listings.svg" alt="" class="btn-icon">
+                <span class="btn-text">Listings</span>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="listingsDropdown">
+                <li><a class="dropdown-item" href="/Listings/MyListings">My Listings</a></li>
+                <li><a class="dropdown-item" href="/Listings/AllListings">All Listings</a></li>
+            </ul>
+        </div>
         <a href="/Actions/MyActions" class="btn btn-gray rounded-pill">
             <img src="~/images/actions_logo_notSelected.svg" alt="" class="btn-icon">
             <span class="btn-text">Actions</span>
         </a>
-        <a href="/Leads/Leads" class="btn btn-gray rounded-pill">
-            <img src="~/images/leads_logo_notSelected.svg" alt="" class="btn-icon">
-            <span class="btn-text">Leads</span>
-        </a>
-        <a href="/People/MyPeople" class="btn btn-gray rounded-pill">
+        <!-- LEADS Dropdown -->
+        <div class="dropdown d-inline-block">
+            <button class="btn btn-primary btn-gray rounded-pill dropdown-toggle d-flex align-items-center"
+                    type="button"
+                    id="leadsDropdown"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                <img src="~/images/leads_logo_notSelected.svg" alt="" class="btn-icon">
+                <span class="btn-text">Leads</span>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="leadsDropdown">
+                <li><a class="dropdown-item" href="/Leads/MyLeads">My Leads</a></li>
+                <li><a class="dropdown-item" href="/Leads/Leads">All Leads</a></li>
+            </ul>
+        </div>
+        <a href="/People/People" class="btn btn-gray rounded-pill">
             <img src="~/images/people_logo_notSelected.svg" alt="" class="btn-icon">
             <span class="btn-text">People</span>
         </a>

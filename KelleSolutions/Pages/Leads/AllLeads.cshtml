@@ -218,17 +218,151 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var lead in Model.AllLeads) {
-                <tr>
-                    <td>@lead.Code</td>
-                    <td>@(lead.Created.HasValue ? lead.Created.Value.ToString("yyyy") : "N/A")</td>
-                    <td>@lead.City</td>
-                    <td>@lead.Postal</td>
-                    <td>@lead.Street</td>
+            @if (Model.AllLeads != null && Model.AllLeads.Any()){
+                @foreach (var lead in Model.AllLeads) {
+                    <tr>
+                        <td>@lead.Code</td>
+                        <td>@lead.NameFirst</td>
+                        <td>@lead.Phone</td>
+                        <td>@lead.Email</td>
+                        <td>@lead.Created?.ToString("yyyy-MM-dd")</td>
+                        <td>
+                            <button class="btn btn-primary me-2"
+                                onclick="prepareUpdate(
+                                    @lead.Code,
+                                    @lead.NameFirst,
+                                    @lead.NameMiddle,
+                                    @lead.NameLast,
+                                    @lead.Email,
+                                    @lead.Phone,
+                                    @lead.OrganizationName,
+                                    @lead.OrganizationTitle,
+                                    @lead.Tracking,
+                                    @lead.Created)"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#editLeadModal">
+                                    Edit
+                            </button>
+                            <button class ="btn btn-danger" onclick="prepareDelete(@lead.Code)" data-bs-toggle="modal" data-bs-target="#deleteLeadModal">Delete</button>
+                        </td>
+                    </tr>
+                }
+            }
+            else {
+                <tr class="no-leads-message">
+                    <td colspan="6" class="text-center">No Leads found. Add a new lead to get started. </td>
                 </tr>
             }
         </tbody>
     </table>
+</div>
+
+
+<!--Edit Modal -->
+<div class="modal fade" id ="editLeadModal" tableindex ="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Lead</h5>
+                <button type ="button" class="btn btn-close" data-bs-dismiss="modal"</button>
+            </div>
+            <div class="modal-body">
+                <form method="post" asp-page-handler="Update">
+                    <input type="hidden" id="updateId" name="id" />
+                    <div class= "row">
+                        <!-- First Name input field -->
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label asp-for="Lead.NameFirst" class="control-label">First Name</label>
+                                <input asp-for="Lead.NameFirst" class="form-control" />
+                                <span asp-validation-for="Lead.NameFirst" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <!-- Middle Name input field -->
+                            <div class="form-group">
+                                <label asp-for="Lead.NameMiddle" class="control-label">Middle Name</label>
+                                <input asp-for="Lead.NameMiddle" class="form-control" />
+                                <span asp-validation-for="Lead.NameMiddle" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <!-- Last Name input field -->
+                            <div class="form-group">
+                                <label asp-for="Lead.NameLast" class="control-label">Last Name</label>
+                                <input asp-for="Lead.NameLast" class="form-control" />
+                                <span asp-validation-for="Lead.NameLast" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class= "row">
+                        <div class="col-md-6">
+                            <!-- Email input field -->
+                            <div class="form-group">
+                                <label asp-for="Lead.Email" class="control-label">Email</label>
+                                <input asp-for="Lead.Email" type="email" class="form-control" />
+                                <span asp-validation-for="Lead.Email" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <!-- Phone input field -->
+                            <div class="form-group">
+                                <label asp-for="Lead.Phone" class="control-label">Phone</label>
+                                <input asp-for="Lead.Phone" type="tel" class="form-control" />
+                                <span asp-validation-for="Lead.Phone" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Organization Name input field -->
+                    <div class="form-group">
+                        <label asp-for="Lead.OrganizationName" class="control-label">Organization Name</label>
+                        <input asp-for="Lead.OrganizationName" class="form-control" />
+                        <span asp-validation-for="Lead.OrganizationName" class="text-danger"></span>
+                    </div>
+
+                    <!-- Organization Title input field -->
+                    <div class="form-group">
+                        <label asp-for="Lead.OrganizationTitle" class="control-label">Organization Title</label>
+                        <input asp-for="Lead.OrganizationTitle" class="form-control" />
+                        <span asp-validation-for="Lead.OrganizationTitle" class="text-danger"></span>
+                    </div>
+
+                    <!-- Tracking input field -->
+                    <div class="form-group">
+                        <label asp-for="Lead.Tracking" class="control-label"></label>
+                        <input asp-for="Lead.Tracking" class="form-control" />
+                        <span asp-validation-for="Lead.Tracking" class="text-danger"></span>
+                    </div>
+
+                    <!-- Submit and Cancel Buttons -->
+                    <button type="submit" class="submit-button mt-3">Save Changes</button>
+                    <!--<a asp-page="/Leads/Index" class="btn btn-secondary">Cancel</a>-->
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteLeadModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Delete Lead</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this Lead?</p>
+                <form method="post" asp-page-handler="Delete">
+                    <input type="hidden" id="deleteId" name="id" />
+                    <div class="mt-4">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="pagination-section">
@@ -302,6 +436,60 @@
 @section Scripts {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            console.log("JavaScript Loaded for Create Lead Modal");
+
+            document.getElementById("createLeadForm").addEventListener("submit", function (event) {
+                event.preventDefault(); // Prevent page reload
+
+                let formData = {
+                    FullName: document.getElementById("fullName").value.trim(),
+                    Phone: document.getElementById("phone").value.trim(),
+                    Email: document.getElementById("email").value.trim(),
+                    Source: document.getElementById("leadSource").value.trim()
+                };
+
+                console.log("Submitting Lead Data:", JSON.stringify(formData));
+
+                fetch("/Leads/ViewLeads?handler=CreateLead", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "application/json"
+                    },
+                    body: JSON.stringify(formData)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log("Server Response:", data);
+                    if (data.success) {
+                        alert("Lead added successfully!");
+                        $("#AddLeadModal").modal("hide");
+                        location.reload();
+                    } else {
+                        alert("Error adding lead: " + data.message);
+                    }
+                })
+                .catch(error => console.error("Fetch Error:", error));
+            });
+        });
+    </script>
+    <script>
+        function prepareUpdate(id, FirstName, MiddleName, LastName, Email, Phone, OrgName, OrgTitle, Tracking) {            document.getElementById('Lead.NameFirst').value = FirstName;
+            document.getElementById('updateId').value = id;
+            document.getElementById('Lead.NameFirst').value = FirstName;
+            document.getElementById('Lead.NameMiddle').value = MiddleName;
+            document.getElementById('Lead.NameLast').value = LastName;
+            document.getElementById('Lead.Email').value = Email;
+            document.getElementById('Lead.OrganizationName').value = OrgName;
+            document.getElemntById('Lead.OrganizationTitle').value = OrgTitle;
+            document.getElementById('Lead.Tracking').value = Tracking;
+        }
+        function prepareDelete(id) {
+            document.getElementById('deleteId').value = id;
+        }
+    </script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             document.querySelectorAll(".dropdown").forEach(dropdown => {
