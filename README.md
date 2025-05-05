@@ -47,7 +47,6 @@ Kelle Solutions is a user-friendly, multi-tenant SaaS (Software as a Service) pl
 - [Features](#features)
 - [Prerequisites](#prerequisites)
 - [Getting Started](#getting-started)
-- [Project Structure](#project-structure)
 - [Timeline](#timeline)
 - [Technologies Used](#technologies-used)
 - [Testing](#testing)
@@ -187,31 +186,6 @@ The application will start on `https://localhost:5072` or `http://localhost:5000
 
 ![alt text](images/dotnetrunout.JPG)
 
-<h2 id="project-structure">
-  <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="images/structure.png">
-  <source media="(prefers-color-scheme: light)" srcset="images/structurelight.png">
-  <img alt="Example Image" src="images/structure.png">
-  </picture>
-  Project Structure
-</h2>
-
-| **Path**                       | **Description**                                                                                  |
-|--------------------------------|--------------------------------------------------------------------------------------------------|
-| `Pages/Affiliations`           | Razor Pages for reading, updating, and deleting a User's company or organization affiliation.    |
-| `Pages/Entities`               | Razor Pages for creating, reading, updating, and deleting entities, which represent companies and organizations. |
-| `Pages/Leads`                  | Razor Pages for creating, reading, updating, and deleting leads, which are potential tenants or clients. |
-| `Pages/Listings`               | Razor Pages for creating, reading, updating, and deleting property listings, which are advertisements for houses. |
-| `Pages/People`                 | Razor Pages for creating, reading, updating, and deleting tenants, or clients.                  |
-| `Pages/Properties`             | Razor Pages for creating, reading, updating, and deleting properties.                           |
-| `Pages/Roles`                  | Razor Pages for reading table of User roles.                                                    |
-| `Pages/Shared`                 | Razor Pages for general UI/UX layout and login recognition.                                     |
-| `Pages/Transactions`           | Razor Pages for documenting transactions.                                                       |
-| `Models/Affiliate.cs`          | The `Affiliate` entity class, representing an agent's company or organization.                  |
-| `Models/Person.cs`             | The `Person` entity class, representing tenants, or clients.                                    |
-| `Models/RealEstateProperty.cs` | The `RealEstateProperty` entity class, representing a property.                                 |
-| `Models/User.cs`               | The `User` entity class, representing any agent, tenant, or admin who logs in.                  |
-| `Data/KelleSolutionsDbContext.cs` | The database context class for managing the database connection and querying the `Properties` and `Affiliates` model. |
 
 <h2 id="technologies-used">
   <picture>
